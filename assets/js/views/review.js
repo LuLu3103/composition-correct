@@ -1,4 +1,4 @@
-/* 批改页：V2 八段结果按「修改建议 / 修改作文 / 作文评分」三块呈现 */
+/* 批改页：V2 八段结果，按「修改建议 / 修改作文 / 作文评分」分区，每张卡片可折叠 */
 import {
   $, $$, icon, logoSvg, escapeHtml, fmtDateTime, mdToHtml, toast, copyText
 } from '../utils.js';
@@ -29,6 +29,30 @@ function head(title, sub, right) {
 
 function chapter(text) {
   return '<div class="chapter"><span class="chapter-bar"></span>' + escapeHtml(text) + '</div>';
+}
+
+/* 可折叠卡片 */
+function foldCard(opts) {
+  return '<details class="card fold" data-fold="' + escapeHtml(opts.id) + '"' + (opts.open ? ' open' : '') + '>' +
+    '<summary class="fold-head">' +
+      '<span class="card-icon">' + icon(opts.icon || 'edit') + '</span>' +
+      '<span class="fold-title">' + escapeHtml(opts.title) + '</span>' +
+      (opts.preview ? '<span class="fold-preview">' + escapeHtml(opts.preview) + '</span>' : '') +
+      '<span class="fold-chevron">' + icon('chevronDown') + '</span>' +
+    '</summary>' +
+    '<div class="fold-body">' + (opts.body || '') + '</div>' +
+  '</details>';
+}
+
+function snippet(text, max) {
+  const raw = String(text || '')
+    .replace(/\`\`\`[\s\S]*?\`\`\`/g, ' ')
+    .replace(/[#>*_`]/g, '')
+    .replace(/^\s*[-•]\s*/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const limit = max || 38;
+  return raw.length > limit ? raw.slice(0, limit) + '…' : raw;
 }
 
 function emptyHtml() {
@@ -100,11 +124,17 @@ function blockHtml(block) {
   if (block.kind === 'sentences' && block.sentences) body = sentencesHtml(block.sentences);
   else if (block.kind === 'phrases' && block.phrases) body = phrasesHtml(block.phrases);
   else body = '<div class="prose">' + mdToHtml(block.body) + '</div>';
-  return '<section class="card">' +
-    '<div class="card-head">' +
-      '<div class="card-icon">' + icon(BLOCK_ICONS[block.id] || 'edit') + '</div>' +
-      '<div><h2 class="card-title">' + escapeHtml(block.title) + '</h2></div>' +
-    '</div>' + body + '</section>';
+  const previewSource = block.body
+    || (block.sentences && block.sentences[0] ? block.sentences[0].original : '')
+    || (block.phrases && block.phrases[0] ? block.phrases[0].phrase : '');
+  return foldCard({
+    id: block.id,
+    icon: BLOCK_ICONS[block.id] || 'edit',
+    title: block.title,
+    preview: snippet(previewSource),
+    body: body,
+    open: block.id === 'overall'
+  });
 }
 
 /* ---------- 评分 ---------- */
@@ -113,13 +143,9 @@ function fmtNum(n) {
   return String(Math.round(n * 10) / 10);
 }
 
-function scoreCard(score) {
+function scoreBody(score) {
   if (!score) {
-    return '<section class="card">' +
-      '<div class="card-head"><div class="card-icon">' + icon('layers') + '</div>' +
-      '<div><h2 class="card-title">作文评分</h2><p class="card-desc">模型未按格式给出分数</p></div></div>' +
-      '<p class="prose">这次输出里没有识别到评分信息，可以换一个模型或调整提示词后重试。</p>' +
-      '</section>';
+    return '<p class="prose">这次输出里没有识别到评分信息，可以换一个模型或调整提示词后重试。</p>';
   }
   const ratio = scoreRatio(score);
   const offset = (RING_C * (1 - ratio)).toFixed(1);
@@ -132,10 +158,7 @@ function scoreCard(score) {
       '</div>';
   }).join('');
 
-  return '<section class="card">' +
-    '<div class="card-head"><div class="card-icon">' + icon('layers') + '</div>' +
-    '<div><h2 class="card-title">得分详情</h2><p class="card-desc">按考研英语评分标准估算</p></div></div>' +
-    '<div class="score-card">' +
+  return '<div class="score-card">' +
       '<div class="score-ring">' +
         '<svg viewBox="0 0 120 120">' +
           '<defs><linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">' +
@@ -154,8 +177,7 @@ function scoreCard(score) {
     '</div>' +
     (dims ? '<div class="dims">' + dims + '</div>' : '') +
     (score.strengths ? '<div class="score-points"><h4>' + icon('check') + '得分优势</h4><div class="prose">' + mdToHtml(score.strengths) + '</div></div>' : '') +
-    (score.weaknesses ? '<div class="score-points"><h4>' + icon('alert') + '主要扣分点</h4><div class="prose">' + mdToHtml(score.weaknesses) + '</div></div>' : '') +
-    '</section>';
+    (score.weaknesses ? '<div class="score-points"><h4>' + icon('alert') + '主要扣分点</h4><div class="prose">' + mdToHtml(score.weaknesses) + '</div></div>' : '');
 }
 
 /* ---------- 兼容旧记录 ---------- */
@@ -190,34 +212,48 @@ function resultHtml(app, data) {
     : '';
 
   const suggestionBlocks = parsed.blocks.map(blockHtml).join('');
-  const suggestionsChapter = (suggestionBlocks || notParsed)
-    ? chapter('修改建议') + notParsed + suggestionBlocks
-    : '';
 
   const revisedCard = parsed.revised
-    ? '<section class="card">' +
-        '<div class="card-head"><div class="card-icon">' + icon('book') + '</div>' +
-        '<div><h2 class="card-title">修改后的完整作文</h2><p class="card-desc">保留原结构，可直接参考</p></div>' +
-        '<button class="card-action" type="button" data-act="copy-revised">复制</button></div>' +
-        '<div class="essay-paper"><div class="prose">' + mdToHtml(parsed.revised) + '</div></div>' +
-      '</section>'
+    ? foldCard({
+        id: 'revised',
+        icon: 'book',
+        title: '修改后的完整作文',
+        preview: '点击查看完整修改稿',
+        body: '<div class="fold-tools"><button class="card-action" type="button" data-act="copy-revised">' + icon('copy') + ' 复制全文</button></div>' +
+          '<div class="essay-paper"><div class="prose">' + mdToHtml(parsed.revised) + '</div></div>'
+      })
     : '';
 
+  const scoreCard = foldCard({
+    id: 'score',
+    icon: 'layers',
+    title: '得分详情',
+    preview: score && score.total !== null ? (fmtNum(score.total) + '/' + fmtNum(score.max) + ' · ' + (score.level || '')) : '未识别到评分',
+    body: scoreBody(score),
+    open: true
+  });
+
   const original = data.essay
-    ? '<section class="card">' +
-        '<div class="card-head"><div class="card-icon">' + icon('copy') + '</div>' +
-        '<div><h2 class="card-title">原始作文</h2><p class="card-desc">提交时的内容</p></div></div>' +
-        '<details><summary class="card-action" style="margin:0">展开查看</summary>' +
-        '<div class="essay-paper" style="margin-top:10px"><div class="prose">' + mdToHtml(data.essay) + '</div></div>' +
-        '</details>' +
-      '</section>'
+    ? foldCard({
+        id: 'original',
+        icon: 'copy',
+        title: '原始作文',
+        preview: '提交时的内容',
+        body: '<div class="essay-paper"><div class="prose">' + mdToHtml(data.essay) + '</div></div>'
+      })
     : '';
+
+  const toolbar = '<div class="result-toolbar">' +
+    '<button class="chip chip-muted fold-toggle" type="button" data-act="toggle-all">' + icon('layers') + '全部展开</button>' +
+    '<span class="toolbar-hint">点击标题展开或收起</span>' +
+    '</div>';
 
   return head('批改结果', 'AI 给出的建议、范文与评分', data.historyId ? '<span class="chip chip-muted">历史</span>' : '') +
     hero +
-    suggestionsChapter +
+    toolbar +
+    (suggestionBlocks ? chapter('修改建议') + notParsed + suggestionBlocks : notParsed) +
     (revisedCard ? chapter('修改作文') + revisedCard : '') +
-    chapter('作文评分') + scoreCard(score) +
+    chapter('作文评分') + scoreCard +
     original +
     '<div class="result-actions">' +
       '<button class="btn btn-ghost" type="button" data-act="copy-all">' + icon('copy') + ' 复制全文</button>' +
@@ -233,24 +269,14 @@ export function render(app) {
   if (job && job.status === 'error') return errorHtml(job);
   if (job && job.status === 'done') {
     return resultHtml(app, {
-      parsed: job.result,
-      question: job.question,
-      essay: job.essay,
-      model: job.model,
-      createdAt: job.startedAt,
-      images: job.images,
-      historyId: job.recordId
+      parsed: job.result, question: job.question, essay: job.essay, model: job.model,
+      createdAt: job.startedAt, images: job.images, historyId: job.recordId
     });
   }
   if (saved && saved.parsed) {
     return resultHtml(app, {
-      parsed: saved.parsed,
-      question: saved.question,
-      essay: saved.essay,
-      model: saved.model,
-      createdAt: saved.createdAt,
-      images: saved.images,
-      historyId: saved.historyId
+      parsed: saved.parsed, question: saved.question, essay: saved.essay, model: saved.model,
+      createdAt: saved.createdAt, images: saved.images, historyId: saved.historyId
     });
   }
   return emptyHtml();
@@ -284,7 +310,12 @@ export function mount(root, app) {
     if (act === 'go-home') app.go('home');
     else if (act === 'go-settings') app.go('settings');
     else if (act === 'retry') app.startCorrection();
-    else if (act === 'copy-revised') {
+    else if (act === 'toggle-all') {
+      const folds = $$('.fold', root);
+      const anyClosed = folds.some((d) => !d.open);
+      folds.forEach((d) => { d.open = anyClosed; });
+      btn.innerHTML = icon('layers') + (anyClosed ? '全部收起' : '全部展开');
+    } else if (act === 'copy-revised') {
       const ok = await copyText(parsed.revised || '');
       toast(ok ? '已复制修改作文' : '复制失败，请长按选择', ok ? 'success' : 'error');
     } else if (act === 'copy-all') {

@@ -1,5 +1,5 @@
 /* 作文批改器 - 离线壳缓存 */
-const VERSION = 'v3.0';
+const VERSION = 'v4.0';
 const CACHE = 'essay-grader-' + VERSION;
 const ASSETS = [
   './',

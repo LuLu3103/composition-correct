@@ -62,10 +62,14 @@ function buildTabbar() {
 function render() {
   const route = routeFromHash();
   const view = VIEWS[route];
-  const root = $('#view');
-  if (!root) return;
-  const html = view.render(app);
-  root.innerHTML = html;
+  const current = document.getElementById('view');
+  if (!current) return;
+  /* 每次都用全新的节点，避免旧的事件监听器残留（重复提交、列表串台） */
+  const root = document.createElement('main');
+  root.id = 'view';
+  root.className = 'view';
+  root.innerHTML = view.render(app);
+  current.replaceWith(root);
   if (view.mount) view.mount(root, app);
   const shell = $('#app');
   if (shell) shell.dataset.route = route;

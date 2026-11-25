@@ -544,8 +544,8 @@ a { color: var(--blue-600); text-decoration: none; }
 
 details summary { list-style: none; }
 details summary::-webkit-details-marker { display: none; }
-details summary::after { content: "⌄"; float: right; color: #c3cddd; font-size: 13px; margin-top: -1px; }
-details[open] summary::after { content: "⌃"; }
+.setting-card details summary::after { content: "⌄"; float: right; color: #c3cddd; font-size: 13px; margin-top: -1px; }
+.setting-card details[open] summary::after { content: "⌃"; }
 
 .btn .ico { width: 16px; height: 16px; vertical-align: -3px; margin-right: 2px; }
 .btn-block { display: block; width: 100%; text-align: center; }
@@ -631,6 +631,35 @@ details[open] summary::after { content: "⌃"; }
 .btn-danger-soft { background: #fff1f1; color: #e5484d; box-shadow: none; }
 .setting-desc.is-dirty { color: #d97706; font-weight: 600; }
 #provider-select { margin-top: 2px; }
+
+
+/* ---------- V4：可折叠结果卡片 ---------- */
+.card.fold { padding: 0; overflow: hidden; }
+.fold-head {
+  display: flex; align-items: center; gap: 11px;
+  padding: 16px 18px; cursor: pointer; list-style: none;
+}
+.fold-head::-webkit-details-marker { display: none; }
+.fold-title { font-size: 14.5px; font-weight: 650; letter-spacing: 0.1px; }
+.fold-preview {
+  flex: 1; min-width: 0; margin-left: auto; text-align: right;
+  font-size: 11.5px; color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.fold[open] .fold-preview { display: none; }
+.fold-chevron { flex: 0 0 auto; display: inline-flex; color: #b9c4d6; transition: transform 0.25s ease; }
+.fold-chevron .ico { width: 16px; height: 16px; }
+.fold[open] .fold-chevron { transform: rotate(180deg); }
+.fold[open] .fold-head { padding-bottom: 6px; }
+.fold-body { padding: 0 18px 18px; animation: fadeIn 0.22s ease both; }
+.fold-tools { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+.fold-tools .card-action { display: inline-flex; align-items: center; gap: 4px; }
+.fold-tools .ico { width: 14px; height: 14px; }
+
+.result-toolbar { display: flex; align-items: center; gap: 10px; margin: 4px 2px 8px; }
+.result-toolbar .chip { cursor: pointer; border: 0; font-family: inherit; }
+.result-toolbar .chip .ico { width: 13px; height: 13px; }
+.toolbar-hint { font-size: 11px; color: var(--muted); }
 
 /* ---------- 其它 ---------- */
 .spin { animation: spin 0.9s linear infinite; }

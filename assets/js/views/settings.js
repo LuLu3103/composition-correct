@@ -302,6 +302,8 @@ export function mount(root, app) {
     const target = event.target.closest('[data-act]');
     if (!target) return;
     const act = target.getAttribute('data-act');
+    /* 以存储里的当前服务商为准，避免用到闭包里的旧值 */
+    const fresh = getActiveProvider(getSettings());
 
     if (act === 'new-provider') { openNewProvider(app); return; }
 
@@ -311,9 +313,9 @@ export function mount(root, app) {
       const apiKey = (keyInput.value || '').trim();
       if (!baseUrl) { toast('请填写接口地址'); return; }
       if (!/^https?:\/\//i.test(baseUrl)) { toast('接口地址需要以 http:// 或 https:// 开头'); return; }
-      if (!active.builtin && !name) { toast('请给服务商填个名称'); return; }
-      updateProvider(active.id, {
-        name: active.builtin ? active.name : name,
+      if (!fresh.builtin && !name) { toast('请给服务商填个名称'); return; }
+      updateProvider(fresh.id, {
+        name: fresh.builtin ? fresh.name : name,
         baseUrl: baseUrl,
         apiKey: apiKey
       });
@@ -331,7 +333,7 @@ export function mount(root, app) {
       });
       if (ok) {
         try {
-          removeProvider(active.id);
+          removeProvider(fresh.id);
           toast('已删除', 'success');
           app.refresh();
         } catch (err) {
@@ -352,9 +354,9 @@ export function mount(root, app) {
       const input = $('#new-model', root);
       const name = (input.value || '').trim();
       if (!name) { toast('先填写模型名称'); return; }
-      if (active.models.some((m) => m.name === name)) { toast('这个模型已经在列表里了'); return; }
-      const models = active.models.concat([{ name: name, vision: guessVision(name) }]);
-      updateProvider(active.id, { models: models, model: active.model || name });
+      if (fresh.models.some((m) => m.name === name)) { toast('这个模型已经在列表里了'); return; }
+      const models = fresh.models.concat([{ name: name, vision: guessVision(name) }]);
+      updateProvider(fresh.id, { models: models, model: fresh.model || name });
       app.refresh();
       toast('已添加 ' + name, 'success');
       return;
@@ -362,32 +364,32 @@ export function mount(root, app) {
 
     if (act === 'del-model') {
       const name = target.getAttribute('data-name');
-      if (active.models.length <= 1) { toast('至少保留一个模型'); return; }
-      const models = active.models.filter((m) => m.name !== name);
-      updateProvider(active.id, { models: models, model: active.model === name ? models[0].name : active.model });
+      if (fresh.models.length <= 1) { toast('至少保留一个模型'); return; }
+      const models = fresh.models.filter((m) => m.name !== name);
+      updateProvider(fresh.id, { models: models, model: fresh.model === name ? models[0].name : fresh.model });
       app.refresh();
       return;
     }
 
     if (act === 'toggle-vision') {
       const name = target.getAttribute('data-name');
-      const models = active.models.map((m) => (m.name === name ? { name: m.name, vision: !m.vision } : m));
-      updateProvider(active.id, { models: models });
+      const models = fresh.models.map((m) => (m.name === name ? { name: m.name, vision: !m.vision } : m));
+      updateProvider(fresh.id, { models: models });
       app.refresh();
       toast(name + (models.find((m) => m.name === name).vision ? ' 可识别图片' : ' 仅文本'), 'success');
       return;
     }
 
     if (act === 'fetch-models') {
-      if (!active.apiKey) { toast('先填写 API Key，点「保存配置」后再获取'); return; }
+      if (!fresh.apiKey) { toast('先填写 API Key，点「保存配置」后再获取'); return; }
       const label = target.innerHTML;
       target.setAttribute('disabled', 'disabled');
       target.textContent = '正在获取模型列表…';
       try {
-        const names = await listModels({ baseUrl: active.baseUrl, apiKey: active.apiKey });
+        const names = await listModels({ baseUrl: fresh.baseUrl, apiKey: fresh.apiKey });
         target.removeAttribute('disabled');
         target.innerHTML = label;
-        openModelPicker(names, active.id, app);
+        openModelPicker(names, fresh.id, app);
       } catch (err) {
         target.removeAttribute('disabled');
         target.innerHTML = label;
@@ -397,15 +399,14 @@ export function mount(root, app) {
     }
 
     if (act === 'test') {
-      const fresh = getActiveProvider(getSettings());
       const status = $('#test-status', root);
       if (!fresh.apiKey) { toast('先填写并保存 API Key'); return; }
       if (!fresh.model) { toast('先添加并选择一个模型'); return; }
       target.setAttribute('disabled', 'disabled');
       if (status) status.textContent = '正在连接 ' + fresh.model + ' …';
       try {
-        const ms = await testConnection({ baseUrl: fresh.baseUrl, apiKey: fresh.apiKey, model: fresh.model });
-        if (status) status.textContent = '连接成功 ✓ 用时 ' + (ms / 1000).toFixed(1) + ' 秒';
+        const info = await testConnection({ baseUrl: fresh.baseUrl, apiKey: fresh.apiKey, model: fresh.model });
+        if (status) status.textContent = '连接成功 ✓ 用时 ' + ((info.ms || 0) / 1000).toFixed(1) + ' 秒' + (info.note ? '（' + info.note + '）' : '');
         toast('连接成功', 'success');
       } catch (err) {
         const msg = (err && err.message) || '连接失败';

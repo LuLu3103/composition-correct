@@ -85,9 +85,9 @@ export async function chatCompletion(options) {
   const payload = {
     model: options.model,
     messages: options.messages,
-    temperature: typeof options.temperature === 'number' ? options.temperature : 0.4,
     stream: !!options.onDelta
   };
+  if (typeof options.temperature === 'number') payload.temperature = options.temperature;
   if (options.maxTokens) payload.max_tokens = options.maxTokens;
 
   let res;
@@ -204,16 +204,26 @@ export async function listModels(options) {
 
 export async function testConnection(options) {
   const started = Date.now();
-  await chatCompletion({
-    baseUrl: options.baseUrl,
-    apiKey: options.apiKey,
-    model: options.model,
-    messages: [
-      { role: 'system', content: '你是一个连通性测试助手，只需回答“ok”。' },
-      { role: 'user', content: 'ping' }
-    ],
-    temperature: 0,
-    maxTokens: 16
-  });
-  return Date.now() - started;
+  try {
+    await chatCompletion({
+      baseUrl: options.baseUrl,
+      apiKey: options.apiKey,
+      model: options.model,
+      messages: [{ role: 'user', content: '只回复两个字：可用' }]
+    });
+    return { ms: Date.now() - started, note: '' };
+  } catch (err) {
+    const status = err && err.status;
+    if (status === 401 || status === 403) throw err;
+    /* 推理模型或部分服务商会拒绝这种极短的聊天请求，
+       这时改用 /models 验证地址与 Key，避免「批改能用但测试不通」 */
+    try {
+      const models = await listModels({ baseUrl: options.baseUrl, apiKey: options.apiKey });
+      const note = models.indexOf(options.model) >= 0 ? '' : '模型不在服务商返回的列表中，但接口与 Key 可用';
+      return { ms: Date.now() - started, note: note };
+    } catch (fallbackErr) {
+      if (fallbackErr && fallbackErr.name === 'ApiError' && fallbackErr.status === 0) throw fallbackErr;
+      throw err;
+    }
+  }
 }
