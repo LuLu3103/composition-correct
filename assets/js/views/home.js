@@ -3,14 +3,15 @@ import {
   $, $$, icon, logoSvg, escapeHtml, fmtDateTime, toast,
   autoGrow, countWords, compressImage, debounce
 } from '../utils.js';
-import { getSettings, saveSettings, getDraft, saveDraft, getResult, currentModelInfo } from '../store.js';
+import { getSettings, getActiveProvider, updateProvider, getDraft, saveDraft, getResult, currentModelInfo } from '../store.js';
 
 export function render() {
   const settings = getSettings();
   const draft = getDraft();
   const result = getResult();
+  const provider = getActiveProvider(settings);
   const model = currentModelInfo();
-  const models = Array.isArray(settings.models) ? settings.models : [];
+  const models = Array.isArray(provider.models) ? provider.models : [];
   const images = Array.isArray(draft.images) ? draft.images : [];
   const viewing = !!(result && result.historyId);
 
@@ -22,7 +23,7 @@ export function render() {
 
   const options = models.length
     ? models.map((m) =>
-        '<option value="' + escapeHtml(m.name) + '"' + (m.name === settings.model ? ' selected' : '') + '>' +
+        '<option value="' + escapeHtml(m.name) + '"' + (m.name === provider.model ? ' selected' : '') + '>' +
         escapeHtml(m.name) + (m.vision ? ' · 视觉' : '') + '</option>'
       ).join('')
     : '<option value="">未添加模型</option>';
@@ -108,11 +109,13 @@ export function mount(root, app) {
   essayEl.addEventListener('input', () => { persist(); updateCount(); });
 
   const settings = getSettings();
+  const provider = getActiveProvider(settings);
   const select = $('#model-select', root);
-  select.value = settings.model;
+  select.value = provider.model;
   select.addEventListener('change', () => {
-    const next = saveSettings({ model: select.value });
-    const info = next.models.find((m) => m.name === next.model);
+    const next = updateProvider(provider.id, { model: select.value });
+    const nextProvider = next.providers.find((p) => p.id === provider.id);
+    const info = nextProvider.models.find((m) => m.name === select.value);
     const hint = $('#vision-hint', root);
     if (hint) {
       hint.innerHTML = icon('image') + '<span>' + (info && info.vision

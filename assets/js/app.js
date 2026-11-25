@@ -1,7 +1,7 @@
 /* 应用外壳：路由、底部标签、批改任务生命周期 */
 import { $, $$, icon, fmtClock, fmtDate, toast } from './utils.js';
 import {
-  getSettings, currentModelInfo, getDraft, saveDraft, addHistory, saveResult,
+  getSettings, getActiveProvider, currentModelInfo, getDraft, saveDraft, addHistory, saveResult,
   getResult, clearResult
 } from './store.js';
 import { buildMessages, chatCompletion } from './api.js';
@@ -89,18 +89,19 @@ async function startCorrection() {
     return;
   }
   const settings = getSettings();
+  const provider = getActiveProvider(settings);
   const draft = getDraft();
   const model = currentModelInfo();
   const essay = (draft.essay || '').trim();
   const images = Array.isArray(draft.images) ? draft.images : [];
   const useImages = model.vision ? images : [];
 
-  if (!settings.model) {
+  if (!provider || !provider.model) {
     toast('请先在设置里获取并选择一个模型');
     app.go('settings');
     return;
   }
-  if (!settings.apiKey) {
+  if (!provider.apiKey) {
     toast('还没有填写 API Key，请先到设置里配置');
     app.go('settings');
     return;
@@ -124,7 +125,7 @@ async function startCorrection() {
     status: 'running',
     raw: '',
     startedAt: Date.now(),
-    model: settings.model,
+    model: provider.model,
     question: draft.question || '',
     essay: draft.essay || '',
     images: images
@@ -134,9 +135,9 @@ async function startCorrection() {
 
   try {
     const content = await chatCompletion({
-      baseUrl: settings.baseUrl,
-      apiKey: settings.apiKey,
-      model: settings.model,
+      baseUrl: provider.baseUrl,
+      apiKey: provider.apiKey,
+      model: provider.model,
       messages: messages,
       temperature: settings.temperature,
       onDelta(piece) {
@@ -152,7 +153,7 @@ async function startCorrection() {
     try {
       record = addHistory({
         createdAt: token.startedAt,
-        model: settings.model,
+        model: provider.model,
         question: token.question,
         essay: token.essay,
         images: token.images,
@@ -170,7 +171,7 @@ async function startCorrection() {
       result: parsed,
       recordId: record ? record.id : '',
       startedAt: token.startedAt,
-      model: settings.model,
+      model: provider.model,
       question: token.question,
       essay: token.essay,
       images: token.images
@@ -180,7 +181,7 @@ async function startCorrection() {
       question: token.question,
       essay: token.essay,
       images: token.images,
-      model: settings.model,
+      model: provider.model,
       createdAt: token.startedAt,
       parsed: parsed,
       raw: content
