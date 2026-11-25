@@ -30,6 +30,7 @@ const DEFAULT_SETTINGS = {
   apiKey: '',
   model: '',
   models: [],
+  modelsVersion: 2,
   prompt: DEFAULT_PROMPT,
   promptVersion: PROMPT_VERSION,
   temperature: 0.4
@@ -66,12 +67,24 @@ export function getSettings() {
     .filter((m) => m && m.name)
     .map((m) => ({ name: String(m.name), vision: !!m.vision }));
 
+  /* V1 会自动预置 deepseek-chat / deepseek-reasoner，V2 起不再默认任何模型 */
+  if (!saved.modelsVersion || saved.modelsVersion < 2) {
+    const onlyV1Defaults = merged.models.length > 0 && merged.models.length <= 2 &&
+      merged.models.every((m) => m.name === 'deepseek-chat' || m.name === 'deepseek-reasoner');
+    if (onlyV1Defaults) {
+      merged.models = [];
+      merged.model = '';
+    }
+    merged.modelsVersion = 2;
+  }
+
   if (!merged.model || !merged.models.some((m) => m.name === merged.model)) {
     merged.model = merged.models.length ? merged.models[0].name : '';
   }
 
   /* V1 → V2：只替换「没有改过」的旧默认提示词，用户自己写的保留 */
-  if (merged.promptVersion !== PROMPT_VERSION) {
+  const savedPromptVersion = typeof saved.promptVersion === 'number' ? saved.promptVersion : 1;
+  if (savedPromptVersion < PROMPT_VERSION) {
     const looksLegacy = !merged.prompt || merged.prompt.indexOf('你是一位资深的考研英语阅卷老师') === 0;
     if (looksLegacy) merged.prompt = DEFAULT_PROMPT;
     merged.promptVersion = PROMPT_VERSION;
