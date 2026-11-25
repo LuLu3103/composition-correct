@@ -165,6 +165,43 @@ export async function chatCompletion(options) {
   return output;
 }
 
+/* ---------------- 拉取服务商可用模型 ---------------- */
+export async function listModels(options) {
+  const base = String(options.baseUrl || '').trim().replace(/\/+$/, '');
+  if (!base) throw new ApiError('请先填写接口地址');
+  if (!/^https?:\/\//i.test(base)) throw new ApiError('接口地址需要以 http:// 或 https:// 开头');
+  const apiKey = String(options.apiKey || '').trim();
+  if (!apiKey) throw new ApiError('请先填写 API Key，再获取模型列表');
+
+  const url = /\/models$/i.test(base) ? base : base + '/models';
+  let res;
+  try {
+    res = await fetch(url, { headers: { Authorization: 'Bearer ' + apiKey } });
+  } catch (e) {
+    throw new ApiError('无法访问模型列表：网络问题，或该服务商不允许浏览器跨域', { detail: String((e && e.message) || e) });
+  }
+  if (!res.ok) {
+    const detail = await readError(res);
+    throw new ApiError(friendly(res.status, detail), { status: res.status, detail: detail });
+  }
+  let data;
+  try {
+    data = await res.json();
+  } catch (e) {
+    throw new ApiError('模型列表返回格式无法解析');
+  }
+  const rawList = Array.isArray(data)
+    ? data
+    : (Array.isArray(data.data) ? data.data : (Array.isArray(data.models) ? data.models : []));
+  const ids = rawList
+    .map((item) => (typeof item === 'string' ? item : (item && (item.id || item.name || item.model)) || ''))
+    .filter(Boolean)
+    .map(String);
+  const unique = Array.from(new Set(ids)).sort((a, b) => a.localeCompare(b));
+  if (!unique.length) throw new ApiError('服务商没有返回可用模型，可以手动添加');
+  return unique;
+}
+
 export async function testConnection(options) {
   const started = Date.now();
   await chatCompletion({

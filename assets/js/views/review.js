@@ -1,4 +1,4 @@
-/* 批改页：展示 AI 返回的修改建议、修改作文、作文评分 */
+/* 批改页：V2 八段结果按「修改建议 / 修改作文 / 作文评分」三块呈现 */
 import {
   $, $$, icon, logoSvg, escapeHtml, fmtDateTime, mdToHtml, toast, copyText
 } from '../utils.js';
@@ -8,12 +8,27 @@ import { scoreRatio } from '../parse.js';
 const RING_R = 52;
 const RING_C = 2 * Math.PI * RING_R;
 
+const BLOCK_ICONS = {
+  req: 'info',
+  overall: 'sparkle',
+  sentences: 'edit',
+  personal: 'sparkle',
+  errors: 'alert',
+  phrases: 'book',
+  suggestions: 'edit',
+  raw: 'review'
+};
+
 function head(title, sub, right) {
   return '<header class="page-head">' +
     '<div class="hero-logo">' + logoSvg() + '</div>' +
     '<div><div class="page-head-title">' + title + '</div><div class="page-head-sub">' + sub + '</div></div>' +
     '<div class="page-head-right">' + (right || '') + '</div>' +
     '</header>';
+}
+
+function chapter(text) {
+  return '<div class="chapter"><span class="chapter-bar"></span>' + escapeHtml(text) + '</div>';
 }
 
 function emptyHtml() {
@@ -53,6 +68,51 @@ function errorHtml(job) {
     '</section>';
 }
 
+/* ---------- 逐句批改 ---------- */
+function sentencesHtml(items) {
+  return items.map((item) =>
+    '<div class="sentence">' +
+      '<div class="sentence-row">' +
+        '<span class="sentence-tag">原句</span>' +
+        '<p class="sentence-text is-bad">' + escapeHtml(item.original) + '</p>' +
+      '</div>' +
+      (item.fix ? '<div class="sentence-row">' +
+        '<span class="sentence-tag is-good">改为</span>' +
+        '<p class="sentence-text is-good">' + escapeHtml(item.fix) + '</p>' +
+      '</div>' : '') +
+      (item.note ? '<div class="sentence-note">' + mdToHtml(item.note) + '</div>' : '') +
+    '</div>'
+  ).join('');
+}
+
+/* ---------- 积累表达 ---------- */
+function phrasesHtml(items) {
+  return '<div class="phrase-list">' + items.map((item) =>
+    '<div class="phrase">' +
+      '<div class="phrase-text">' + escapeHtml(item.phrase) + '</div>' +
+      (item.usage ? '<div class="phrase-usage"><span>可用于</span>' + mdToHtml(item.usage) + '</div>' : '') +
+    '</div>'
+  ).join('') + '</div>';
+}
+
+function blockHtml(block) {
+  let body;
+  if (block.kind === 'sentences' && block.sentences) body = sentencesHtml(block.sentences);
+  else if (block.kind === 'phrases' && block.phrases) body = phrasesHtml(block.phrases);
+  else body = '<div class="prose">' + mdToHtml(block.body) + '</div>';
+  return '<section class="card">' +
+    '<div class="card-head">' +
+      '<div class="card-icon">' + icon(BLOCK_ICONS[block.id] || 'edit') + '</div>' +
+      '<div><h2 class="card-title">' + escapeHtml(block.title) + '</h2></div>' +
+    '</div>' + body + '</section>';
+}
+
+/* ---------- 评分 ---------- */
+function fmtNum(n) {
+  if (n === null || n === undefined || Number.isNaN(n)) return '—';
+  return String(Math.round(n * 10) / 10);
+}
+
 function scoreCard(score) {
   if (!score) {
     return '<section class="card">' +
@@ -74,7 +134,7 @@ function scoreCard(score) {
 
   return '<section class="card">' +
     '<div class="card-head"><div class="card-icon">' + icon('layers') + '</div>' +
-    '<div><h2 class="card-title">作文评分</h2><p class="card-desc">按内容、结构、语言、词汇四项评定</p></div></div>' +
+    '<div><h2 class="card-title">得分详情</h2><p class="card-desc">按考研英语评分标准估算</p></div></div>' +
     '<div class="score-card">' +
       '<div class="score-ring">' +
         '<svg viewBox="0 0 120 120">' +
@@ -87,22 +147,31 @@ function scoreCard(score) {
         '<div class="score-num"><b>' + fmtNum(score.total) + '</b><span>/ ' + fmtNum(score.max) + '</span></div>' +
       '</div>' +
       '<div class="score-side">' +
-        '<div class="score-level">' + icon('check') + escapeHtml(score.level || '') + '</div>' +
+        (score.level ? '<div class="score-level">' + icon('check') + escapeHtml(score.level) + '</div>' : '') +
+        (score.range ? '<p class="score-range">预估区间 ' + escapeHtml(score.range) + ' 分</p>' : '') +
         (score.comment ? '<p class="score-comment">' + escapeHtml(score.comment) + '</p>' : '') +
       '</div>' +
     '</div>' +
     (dims ? '<div class="dims">' + dims + '</div>' : '') +
+    (score.strengths ? '<div class="score-points"><h4>' + icon('check') + '得分优势</h4><div class="prose">' + mdToHtml(score.strengths) + '</div></div>' : '') +
+    (score.weaknesses ? '<div class="score-points"><h4>' + icon('alert') + '主要扣分点</h4><div class="prose">' + mdToHtml(score.weaknesses) + '</div></div>' : '') +
     '</section>';
 }
 
-function fmtNum(n) {
-  if (n === null || n === undefined || Number.isNaN(n)) return '—';
-  return String(Math.round(n * 10) / 10);
+/* ---------- 兼容旧记录 ---------- */
+function normalize(parsed) {
+  if (!parsed) return { blocks: [], revised: '', score: null, parsed: false };
+  if (Array.isArray(parsed.blocks)) {
+    return { blocks: parsed.blocks, revised: parsed.revised || '', score: parsed.score || null, parsed: !!parsed.parsed };
+  }
+  const blocks = [];
+  if (parsed.suggestions) blocks.push({ id: 'suggestions', title: '具体修改意见', body: parsed.suggestions, kind: 'text' });
+  return { blocks: blocks, revised: parsed.revised || '', score: parsed.score || null, parsed: !!parsed.parsed };
 }
 
 function resultHtml(app, data) {
-  const parsed = data.parsed || {};
-  const score = parsed.score || null;
+  const parsed = normalize(data.parsed);
+  const score = parsed.score;
   const title = (data.question || '').trim() || '未命名题目';
   const chips = [
     data.model ? '<span class="chip">' + icon('layers') + escapeHtml(data.model) + '</span>' : '',
@@ -116,18 +185,19 @@ function resultHtml(app, data) {
     (score && score.total !== null ? '<div class="result-score"><b>' + fmtNum(score.total) + '</b><span>/ ' + fmtNum(score.max) + '</span></div>' : '') +
     '</div>';
 
-  const suggestions = parsed.suggestions
-    ? '<section class="card">' +
-        '<div class="card-head"><div class="card-icon">' + icon('edit') + '</div>' +
-        '<div><h2 class="card-title">修改建议</h2><p class="card-desc">优先解决的高频问题</p></div></div>' +
-        '<div class="prose">' + mdToHtml(parsed.suggestions) + '</div>' +
-      '</section>'
+  const notParsed = parsed.parsed === false
+    ? '<section class="card"><p class="prose">' + icon('alert') + ' 模型输出没有按提示词的段落编号分节，已把内容整段展示。</p></section>'
     : '';
 
-  const revised = parsed.revised
+  const suggestionBlocks = parsed.blocks.map(blockHtml).join('');
+  const suggestionsChapter = (suggestionBlocks || notParsed)
+    ? chapter('修改建议') + notParsed + suggestionBlocks
+    : '';
+
+  const revisedCard = parsed.revised
     ? '<section class="card">' +
         '<div class="card-head"><div class="card-icon">' + icon('book') + '</div>' +
-        '<div><h2 class="card-title">修改作文</h2><p class="card-desc">保留原意，润色后的完整版本</p></div>' +
+        '<div><h2 class="card-title">修改后的完整作文</h2><p class="card-desc">保留原结构，可直接参考</p></div>' +
         '<button class="card-action" type="button" data-act="copy-revised">复制</button></div>' +
         '<div class="essay-paper"><div class="prose">' + mdToHtml(parsed.revised) + '</div></div>' +
       '</section>'
@@ -136,21 +206,19 @@ function resultHtml(app, data) {
   const original = data.essay
     ? '<section class="card">' +
         '<div class="card-head"><div class="card-icon">' + icon('copy') + '</div>' +
-        '<div><h2 class="card-title">原始作文</h2><p class="card-desc">提交时的文本</p></div></div>' +
-        '<details><summary class="card-action" style="margin:0;list-style:none">展开查看</summary>' +
+        '<div><h2 class="card-title">原始作文</h2><p class="card-desc">提交时的内容</p></div></div>' +
+        '<details><summary class="card-action" style="margin:0">展开查看</summary>' +
         '<div class="essay-paper" style="margin-top:10px"><div class="prose">' + mdToHtml(data.essay) + '</div></div>' +
         '</details>' +
       '</section>'
     : '';
 
-  const notParsed = parsed.parsed === false
-    ? '<section class="card"><p class="prose">' + icon('alert') + ' 模型输出没有按「修改建议 / 修改作文 / 作文评分」分节，已把全部内容放在上面。</p></section>'
-    : '';
-
   return head('批改结果', 'AI 给出的建议、范文与评分', data.historyId ? '<span class="chip chip-muted">历史</span>' : '') +
-    hero + notParsed +
-    (score ? '' : '') +
-    suggestions + revised + scoreCard(score) + original +
+    hero +
+    suggestionsChapter +
+    (revisedCard ? chapter('修改作文') + revisedCard : '') +
+    chapter('作文评分') + scoreCard(score) +
+    original +
     '<div class="result-actions">' +
       '<button class="btn btn-ghost" type="button" data-act="copy-all">' + icon('copy') + ' 复制全文</button>' +
       '<button class="btn btn-primary" type="button" data-act="retry">' + icon('refresh') + ' 重新批改</button>' +
@@ -185,26 +253,22 @@ export function render(app) {
       historyId: saved.historyId
     });
   }
-  return emptyHtml(app);
+  return emptyHtml();
 }
 
 export function mount(root, app) {
   const job = app.getJob();
   const saved = getResult();
-  const parsed = (job && job.status === 'done' ? job.result : saved && saved.parsed) || null;
+  const parsed = normalize(job && job.status === 'done' ? job.result : (saved && saved.parsed) || null);
 
   const ring = $('.ring-fg', root);
   if (ring) {
     const final = ring.getAttribute('data-final');
-    requestAnimationFrame(() => {
-      setTimeout(() => { ring.style.strokeDashoffset = final; }, 60);
-    });
+    requestAnimationFrame(() => { setTimeout(() => { ring.style.strokeDashoffset = final; }, 60); });
   }
   $$('.dim-bar i', root).forEach((bar) => {
     const width = bar.getAttribute('data-w') || '0';
-    requestAnimationFrame(() => {
-      setTimeout(() => { bar.style.width = width + '%'; }, 80);
-    });
+    requestAnimationFrame(() => { setTimeout(() => { bar.style.width = width + '%'; }, 80); });
   });
 
   const box = $('#stream-box', root);
@@ -221,15 +285,17 @@ export function mount(root, app) {
     else if (act === 'go-settings') app.go('settings');
     else if (act === 'retry') app.startCorrection();
     else if (act === 'copy-revised') {
-      const text = (parsed && parsed.revised) || '';
-      const ok = await copyText(text);
+      const ok = await copyText(parsed.revised || '');
       toast(ok ? '已复制修改作文' : '复制失败，请长按选择', ok ? 'success' : 'error');
     } else if (act === 'copy-all') {
-      const data = parsed || {};
-      const score = data.score;
-      const text = [data.suggestions, data.revised, score ? ('总分：' + score.total + '/' + score.max + '\n' + (score.level || '') + '\n' + (score.comment || '')) : '']
-        .filter(Boolean).join('\n\n');
-      const ok = await copyText(text || (data.raw || ''));
+      const score = parsed.score;
+      const scoreText = score
+        ? ['总分：' + fmtNum(score.total) + '/' + fmtNum(score.max), score.level, score.strengths ? '得分优势：' + score.strengths : '', score.weaknesses ? '主要扣分点：' + score.weaknesses : ''].filter(Boolean).join('\n')
+        : '';
+      const text = parsed.blocks.map((b) => b.title + '\n' + b.body).join('\n\n') +
+        (parsed.revised ? '\n\n修改后的完整作文\n' + parsed.revised : '') +
+        (scoreText ? '\n\n评分\n' + scoreText : '');
+      const ok = await copyText(text.trim());
       toast(ok ? '已复制批改结果' : '复制失败，请长按选择', ok ? 'success' : 'error');
     }
   });

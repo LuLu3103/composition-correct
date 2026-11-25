@@ -1,13 +1,13 @@
 /* 设置页：接口配置、提示词、数据备份、关于 */
 import {
   $, $$, icon, logoSvg, escapeHtml, toast, openSheet, confirmDialog,
-  downloadFile, debounce, fmtClock
+  downloadFile, debounce, fmtClock, guessVision
 } from '../utils.js';
 import {
   PROVIDERS, APP_VERSION, DEFAULT_PROMPT, getSettings, saveSettings,
   exportBackup, importBackup, wipeAll, listHistory
 } from '../store.js';
-import { testConnection } from '../api.js';
+import { testConnection, listModels } from '../api.js';
 
 function groupTitle(text) {
   return '<div class="group-title">' + escapeHtml(text) + '</div>';
@@ -19,7 +19,7 @@ export function render() {
     '<button class="pill' + (p.id === s.provider ? ' is-on' : '') + '" type="button" data-provider="' + p.id + '">' + escapeHtml(p.name) + '</button>'
   ).join('');
 
-  const models = (s.models || []).map((m) =>
+  const modelList = (s.models || []).map((m) =>
     '<div class="model-item' + (m.name === s.model ? ' is-on' : '') + '">' +
       '<input type="radio" name="model-pick" value="' + escapeHtml(m.name) + '"' + (m.name === s.model ? ' checked' : '') + ' />' +
       '<span class="model-name">' + escapeHtml(m.name) + '</span>' +
@@ -27,6 +27,9 @@ export function render() {
       '<button class="icon-btn" type="button" data-act="del-model" data-name="' + escapeHtml(m.name) + '" aria-label="移除模型">' + icon('close') + '</button>' +
     '</div>'
   ).join('');
+  const models = (s.models || []).length
+    ? '<div class="models-list">' + modelList + '</div>'
+    : '<div class="model-empty">' + icon('layers') + '<span>还没有模型，点下面的按钮从服务商获取</span></div>';
 
   const historyCount = listHistory().length;
 
@@ -54,11 +57,15 @@ export function render() {
       '</div>' +
       '<div class="setting-body">' +
         '<div class="field-row"><span class="field-label">可选模型</span><span class="field-hint">选中的就是首页默认模型</span></div>' +
-        '<div class="models-list">' + models + '</div>' +
-        '<div class="input-group" style="margin-top:10px">' +
-          '<input class="input" id="new-model" spellcheck="false" placeholder="添加模型名称，如 gpt-4o-mini" />' +
-          '<button class="icon-btn" type="button" data-act="add-model" aria-label="添加模型">' + icon('plus') + '</button>' +
-        '</div>' +
+        models +
+        '<button class="btn btn-ghost btn-block models-fetch" type="button" data-act="fetch-models" id="fetch-btn">' + icon('refresh') + ' 获取可用模型</button>' +
+        '<details class="manual-add">' +
+          '<summary>手动添加模型名称</summary>' +
+          '<div class="input-group" style="margin-top:10px">' +
+            '<input class="input" id="new-model" spellcheck="false" placeholder="例如：deepseek-chat" />' +
+            '<button class="icon-btn" type="button" data-act="add-model" aria-label="添加模型">' + icon('plus') + '</button>' +
+          '</div>' +
+        '</details>' +
         '<div class="input-group" style="margin-top:10px">' +
           '<button class="btn btn-ghost btn-block" type="button" data-act="test">' + icon('refresh') + ' 测试连接</button>' +
         '</div>' +
@@ -130,6 +137,65 @@ export function render() {
     '</section>';
 }
 
+function openModelPicker(names, app) {
+  const current = getSettings();
+  const existing = current.models.map((m) => m.name);
+  const rows = names.map((name) => {
+    const checked = existing.indexOf(name) >= 0 ? ' checked' : '';
+    return '<label class="picker-row" data-name="' + escapeHtml(name) + '">' +
+      '<input type="checkbox" value="' + escapeHtml(name) + '"' + checked + ' />' +
+      '<span class="picker-name">' + escapeHtml(name) + '</span>' +
+      (guessVision(name) ? '<span class="model-tag">视觉</span>' : '') +
+      '</label>';
+  }).join('');
+
+  openSheet({
+    title: '选择要添加的模型',
+    html: '<input class="input" id="picker-search" placeholder="搜索模型名称…" spellcheck="false" />' +
+      '<div class="picker-list" id="picker-list">' + rows + '</div>' +
+      '<div class="sheet-actions">' +
+        '<button class="btn btn-ghost" type="button" data-act="cancel">取消</button>' +
+        '<button class="btn btn-primary" type="button" data-act="confirm" disabled>添加</button>' +
+      '</div>',
+    onMount(root, close) {
+      const list = root.querySelector('#picker-list');
+      const confirm = root.querySelector('[data-act="confirm"]');
+      const search = root.querySelector('#picker-search');
+
+      const update = () => {
+        const picked = list.querySelectorAll('input:checked').length;
+        confirm.textContent = picked ? '添加 ' + picked + ' 个模型' : '添加';
+        confirm.disabled = picked === 0;
+      };
+      update();
+      list.addEventListener('change', update);
+
+      search.addEventListener('input', () => {
+        const q = search.value.trim().toLowerCase();
+        list.querySelectorAll('.picker-row').forEach((row) => {
+          const hit = !q || row.getAttribute('data-name').toLowerCase().indexOf(q) >= 0;
+          row.classList.toggle('hidden', !hit);
+        });
+      });
+
+      root.querySelector('[data-act="cancel"]').addEventListener('click', close);
+      confirm.addEventListener('click', () => {
+        const picked = Array.from(list.querySelectorAll('input:checked')).map((input) => input.value);
+        if (!picked.length) return;
+        const s = getSettings();
+        const models = s.models.slice();
+        picked.forEach((name) => {
+          if (!models.some((m) => m.name === name)) models.push({ name: name, vision: guessVision(name) });
+        });
+        saveSettings({ models: models, model: s.model || models[0].name });
+        close();
+        app.refresh();
+        toast('已添加 ' + picked.length + ' 个模型', 'success');
+      });
+    }
+  });
+}
+
 export function mount(root, app) {
   const persist = debounce((patch) => {
     try {
@@ -173,15 +239,9 @@ export function mount(root, app) {
       const preset = PROVIDERS.find((p) => p.id === target.getAttribute('data-provider'));
       if (!preset) return;
       const current = getSettings();
-      const models = preset.models.length ? preset.models.slice() : current.models;
-      saveSettings({
-        provider: preset.id,
-        baseUrl: preset.baseUrl || current.baseUrl,
-        models: models,
-        model: models.length ? models[0].name : current.model
-      });
+      saveSettings({ provider: preset.id, baseUrl: preset.baseUrl || current.baseUrl });
       app.refresh();
-      toast('已切换到 ' + preset.name);
+      toast('已切换到 ' + preset.name + '，可点「获取可用模型」');
       return;
     }
 
@@ -200,7 +260,7 @@ export function mount(root, app) {
       if (!name) { toast('先填写模型名称'); return; }
       const s = getSettings();
       if (s.models.some((m) => m.name === name)) { toast('这个模型已经在列表里了'); return; }
-      const models = s.models.concat([{ name: name, vision: false }]);
+      const models = s.models.concat([{ name: name, vision: guessVision(name) }]);
       saveSettings({ models: models, model: s.model || name });
       app.refresh();
       toast('已添加 ' + name, 'success');
@@ -224,6 +284,25 @@ export function mount(root, app) {
       const models = s.models.filter((m) => m.name !== name);
       saveSettings({ models: models, model: s.model === name ? models[0].name : s.model });
       app.refresh();
+      return;
+    }
+
+    if (act === 'fetch-models') {
+      const s = getSettings();
+      if (!s.apiKey) { toast('先填写 API Key，再获取模型列表'); return; }
+      const label = target.innerHTML;
+      target.setAttribute('disabled', 'disabled');
+      target.textContent = '正在获取模型列表…';
+      try {
+        const names = await listModels({ baseUrl: s.baseUrl, apiKey: s.apiKey });
+        target.removeAttribute('disabled');
+        target.innerHTML = label;
+        openModelPicker(names, app);
+      } catch (err) {
+        target.removeAttribute('disabled');
+        target.innerHTML = label;
+        toast((err && err.message) || '获取模型列表失败', 'error');
+      }
       return;
     }
 

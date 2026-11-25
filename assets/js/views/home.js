@@ -10,7 +10,7 @@ export function render() {
   const draft = getDraft();
   const result = getResult();
   const model = currentModelInfo();
-  const models = settings.models && settings.models.length ? settings.models : [{ name: settings.model, vision: false }];
+  const models = Array.isArray(settings.models) ? settings.models : [];
   const images = Array.isArray(draft.images) ? draft.images : [];
   const viewing = !!(result && result.historyId);
 
@@ -20,10 +20,15 @@ export function render() {
       '<button class="icon-btn" type="button" data-act="clear-view" aria-label="新建批改">' + icon('close') + '</button></div>'
     : '';
 
-  const options = models.map((m) =>
-    '<option value="' + escapeHtml(m.name) + '"' + (m.name === settings.model ? ' selected' : '') + '>' +
-    escapeHtml(m.name) + (m.vision ? ' · 视觉' : '') + '</option>'
-  ).join('');
+  const options = models.length
+    ? models.map((m) =>
+        '<option value="' + escapeHtml(m.name) + '"' + (m.name === settings.model ? ' selected' : '') + '>' +
+        escapeHtml(m.name) + (m.vision ? ' · 视觉' : '') + '</option>'
+      ).join('')
+    : '<option value="">未添加模型</option>';
+  const visionHint = !models.length
+    ? '还没有模型，请到「设置」里获取可用模型'
+    : (model.vision ? '当前模型支持图片识别' : '当前模型仅支持文本，图片请选带「视觉」的模型');
 
   const thumbs = images.map((src, index) =>
     '<div class="thumb"><img src="' + src + '" alt="作文图片 ' + (index + 1) + '" />' +
@@ -51,9 +56,8 @@ export function render() {
         '<div><h2 class="card-title">模型选择</h2><p class="card-desc">决定批改质量与是否识别图片</p></div>' +
         '<button class="card-action" type="button" data-act="to-settings">配置</button>' +
       '</div>' +
-      '<div class="model-row"><select class="select" id="model-select" aria-label="选择模型">' + options + '</select></div>' +
-      '<p class="vision-flag" id="vision-hint">' + icon('image') +
-        '<span>' + (model.vision ? '当前模型支持图片识别' : '当前模型仅支持文本，图片请选带「视觉」的模型') + '</span></p>' +
+      '<div class="model-row"><select class="select" id="model-select" aria-label="选择模型"' + (models.length ? '' : ' disabled') + '>' + options + '</select></div>' +
+      '<p class="vision-flag" id="vision-hint">' + icon('image') + '<span>' + visionHint + '</span></p>' +
     '</section>' +
 
     '<section class="card">' +

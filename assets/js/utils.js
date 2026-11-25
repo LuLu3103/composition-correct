@@ -73,7 +73,7 @@ export function mdToHtml(src) {
   const out = [];
   let list = null;
   let para = [];
-  const flushPara = () => { if (para.length) { out.push('<p>' + inline(para.join(' ')) + '</p>'); para = []; } };
+  const flushPara = () => { if (para.length) { out.push('<p>' + para.map(inline).join('<br>') + '</p>'); para = []; } };
   const closeList = () => { if (list) { out.push('</' + list + '>'); list = null; } };
 
   const lines = text.split('\n');
@@ -257,6 +257,11 @@ export const uid = () => Date.now().toString(36) + Math.random().toString(36).sl
 export function debounce(fn, wait = 300) {
   let t = null;
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+}
+
+/* 根据模型名粗略判断是否支持图片（用户仍可在设置里手动切换） */
+export function guessVision(name) {
+  return /(?:vl|vision|4o|4\.1|4v|omni|gemini|claude|multimodal|llava|pixtral|qvq|internvl)/i.test(String(name || ''));
 }
 
 export function countWords(text) {

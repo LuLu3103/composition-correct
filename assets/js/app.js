@@ -95,13 +95,18 @@ async function startCorrection() {
   const images = Array.isArray(draft.images) ? draft.images : [];
   const useImages = model.vision ? images : [];
 
-  if (!essay && !useImages.length) {
-    toast('请先输入作文，或上传作文图片');
+  if (!settings.model) {
+    toast('请先在设置里获取并选择一个模型');
+    app.go('settings');
     return;
   }
   if (!settings.apiKey) {
     toast('还没有填写 API Key，请先到设置里配置');
     app.go('settings');
+    return;
+  }
+  if (!essay && !useImages.length) {
+    toast('请先输入作文，或上传作文图片');
     return;
   }
   if (images.length && !model.vision) {

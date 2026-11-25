@@ -36,6 +36,9 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
+# 原始提示词文件（内容已内置到 assets/js/prompt.js）
+提示词.txt
+
 # Local QA screenshots
 shots/
 

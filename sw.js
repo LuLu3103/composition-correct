@@ -1,5 +1,5 @@
 /* 作文批改器 - 离线壳缓存 */
-const VERSION = 'v1.0.0';
+const VERSION = 'v2.0';
 const CACHE = 'essay-grader-' + VERSION;
 const ASSETS = [
   './',
@@ -10,6 +10,7 @@ const ASSETS = [
   './assets/js/utils.js',
   './assets/js/store.js',
   './assets/js/api.js',
+  './assets/js/prompt.js',
   './assets/js/parse.js',
   './assets/js/views/home.js',
   './assets/js/views/review.js',
