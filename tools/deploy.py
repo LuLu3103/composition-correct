@@ -1,1 +1,122 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiLnlKggR2l0SHViIEFQSSDmj5DkuqTlubblj5HluIPvvIhnaXQgcHVzaCDnvZHnu5zkuI3pgJrml7bkvb/nlKjvvInjgIIiIiIKaW1wb3J0IGJhc2U2NCwganNvbiwgb3MsIHN1YnByb2Nlc3MsIHN5cywgdGltZQoKUkVQTyA9IG9zLmVudmlyb24uZ2V0KCJERVBMT1lfUkVQTyIsICJMdUx1MzEwMy9jb21wb3NpdGlvbi1jb3JyZWN0IikKUk9PVCA9IG9zLnBhdGguZGlybmFtZShvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5hYnNwYXRoKF9fZmlsZV9fKSkpClNLSVBfRElSUyA9IHsiLmdpdCIsICJzaG90cyIsICJub2RlX21vZHVsZXMiLCAiX19weWNhY2hlX18ifQpTS0lQX0ZJTEVTID0geyLmj5DnpLror40udHh0In0KVEVYVF9FWFQgPSB7Ii5odG1sIiwgIi5odG0iLCAiLmNzcyIsICIuanMiLCAiLm1qcyIsICIuanNvbiIsICIud2VibWFuaWZlc3QiLCAiLnN2ZyIsICIubWQiLCAiLnR4dCIsICIueW1sIiwgIi55YW1sIn0KCmRlZiBnaChhcmdzLCBwYXlsb2FkPU5vbmUpOgogICAgcHJvYyA9IHN1YnByb2Nlc3MucnVuKFsiZ2giLCAiYXBpIl0gKyBhcmdzLCBpbnB1dD1wYXlsb2FkLCBjYXB0dXJlX291dHB1dD1UcnVlLCB0ZXh0PVRydWUsIGVuY29kaW5nPSJ1dGYtOCIpCiAgICByZXR1cm4gcHJvYwoKZGVmIGNvbGxlY3RfZmlsZXMoKToKICAgIGZpbGVzID0gW10KICAgIGZvciBkaXJwYXRoLCBkaXJuYW1lcywgZmlsZW5hbWVzIGluIG9zLndhbGsoUk9PVCk6CiAgICAgICAgZGlybmFtZXNbOl0gPSBbZCBmb3IgZCBpbiBkaXJuYW1lcyBpZiBkIG5vdCBpbiBTS0lQX0RJUlNdCiAgICAgICAgZm9yIG5hbWUgaW4gZmlsZW5hbWVzOgogICAgICAgICAgICBmdWxsID0gb3MucGF0aC5qb2luKGRpcnBhdGgsIG5hbWUpCiAgICAgICAgICAgIHJlbCA9IG9zLnBhdGgucmVscGF0aChmdWxsLCBST09UKS5yZXBsYWNlKG9zLnNlcCwgIi8iKQogICAgICAgICAgICBpZiByZWwgaW4gU0tJUF9GSUxFUzoKICAgICAgICAgICAgICAgIGNvbnRpbnVlCiAgICAgICAgICAgIGlmIG5hbWUuc3RhcnRzd2l0aCgiLiIpIGFuZCBuYW1lIG5vdCBpbiB7Ii5ub2pla3lsbCIsICIuZ2l0aWdub3JlIn06CiAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICBmaWxlcy5hcHBlbmQocmVsKQogICAgZmlsZXMuc29ydCgpCiAgICByZXR1cm4gZmlsZXMKCmRlZiBlbnRyeV9mb3IocmVsKToKICAgIGRhdGEgPSBvcGVuKG9zLnBhdGguam9pbihST09ULCByZWwpLCAicmIiKS5yZWFkKCkKICAgIGV4dCA9IG9zLnBhdGguc3BsaXRleHQocmVsKVsxXS5sb3dlcigpCiAgICBpZiBleHQgaW4gVEVYVF9FWFQgb3IgcmVsIGluIHsiLm5vamVreWxsIiwgIi5naXRpZ25vcmUifToKICAgICAgICB0cnk6CiAgICAgICAgICAgIHJldHVybiB7InBhdGgiOiByZWwsICJtb2RlIjogIjEwMDY0NCIsICJ0eXBlIjogImJsb2IiLCAiY29udGVudCI6IGRhdGEuZGVjb2RlKCJ1dGYtOCIpLCAiZW5jb2RpbmciOiAidXRmLTgifQogICAgICAgIGV4Y2VwdCBVbmljb2RlRGVjb2RlRXJyb3I6CiAgICAgICAgICAgIHBhc3MKICAgIHJldHVybiB7InBhdGgiOiByZWwsICJtb2RlIjogIjEwMDY0NCIsICJ0eXBlIjogImJsb2IiLCAiY29udGVudCI6IGJhc2U2NC5iNjRlbmNvZGUoZGF0YSkuZGVjb2RlKCJhc2NpaSIpLCAiZW5jb2RpbmciOiAiYmFzZTY0In0KCmRlZiBtYWluKCk6CiAgICBmaWxlcyA9IGNvbGxlY3RfZmlsZXMoKQogICAgcHJpbnQoImZpbGVzOiIsIGxlbihmaWxlcykpCiAgICBmb3IgZiBpbiBmaWxlczoKICAgICAgICBwcmludCgiICAtIiwgZikKICAgIGlmICItLWRyeS1ydW4iIGluIHN5cy5hcmd2OgogICAgICAgIHJldHVybiAwCiAgICBwYXJlbnQgPSBOb25lCiAgICByZWYgPSBnaChbInJlcG9zLyVzL2dpdC9yZWYvaGVhZHMvbWFpbiIgJSBSRVBPXSkKICAgIGlmIHJlZi5yZXR1cm5jb2RlID09IDA6CiAgICAgICAgcGFyZW50ID0ganNvbi5sb2FkcyhyZWYuc3Rkb3V0KVsib2JqZWN0Il1bInNoYSJdCiAgICAgICAgcHJpbnQoInBhcmVudDoiLCBwYXJlbnQpCiAgICBlbHNlOgogICAgICAgIHByaW50KCJlbXB0eSByZXBvLCBib290c3RyYXBwaW5nIFJFQURNRSAuLi4iKQogICAgICAgIGJvb3QgPSB7CiAgICAgICAgICAgICJtZXNzYWdlIjogImNob3JlOiBib290c3RyYXAgcmVwb3NpdG9yeSIsCiAgICAgICAgICAgICJjb250ZW50IjogYmFzZTY0LmI2NGVuY29kZShvcGVuKG9zLnBhdGguam9pbihST09ULCAiUkVBRE1FLm1kIiksICJyYiIpLnJlYWQoKSkuZGVjb2RlKCJhc2NpaSIpLAogICAgICAgIH0KICAgICAgICByZXMgPSBnaChbInJlcG9zLyVzL2NvbnRlbnRzL1JFQURNRS5tZCIgJSBSRVBPLCAiLVgiLCAiUFVUIiwgIi0taW5wdXQiLCAiLSJdLCBqc29uLmR1bXBzKGJvb3QpKQogICAgICAgIGlmIHJlcy5yZXR1cm5jb2RlICE9IDA6CiAgICAgICAgICAgIHByaW50KCJib290c3RyYXAgZmFpbGVkOiIsIHJlcy5zdGRlcnJbOjYwMF0pCiAgICAgICAgICAgIHJldHVybiAxCiAgICAgICAgcmVmID0gZ2goWyJyZXBvcy8lcy9naXQvcmVmL2hlYWRzL21haW4iICUgUkVQT10pCiAgICAgICAgcGFyZW50ID0ganNvbi5sb2FkcyhyZWYuc3Rkb3V0KVsib2JqZWN0Il1bInNoYSJdCiAgICAgICAgcHJpbnQoInBhcmVudDoiLCBwYXJlbnQpCgogICAgZW50cmllcyA9IFtlbnRyeV9mb3IoZikgZm9yIGYgaW4gZmlsZXNdCiAgICByZXMgPSBnaChbInJlcG9zLyVzL2dpdC90cmVlcyIgJSBSRVBPLCAiLS1pbnB1dCIsICItIl0sIGpzb24uZHVtcHMoeyJ0cmVlIjogZW50cmllc30pKQogICAgaWYgcmVzLnJldHVybmNvZGUgIT0gMDoKICAgICAgICBwcmludCgiY3JlYXRlIHRyZWUgZmFpbGVkOiIsIHJlcy5zdGRlcnJbOjgwMF0pOyByZXR1cm4gMQogICAgdHJlZV9zaGEgPSBqc29uLmxvYWRzKHJlcy5zdGRvdXQpWyJzaGEiXQogICAgcHJpbnQoInRyZWU6IiwgdHJlZV9zaGEpCiAgICBtc2cgPSAiZmVhdDog6ICD56CU5L2c5paH5om55pS55ZmoIFYxLjAuMCIKICAgIGNvbW1pdCA9IHsibWVzc2FnZSI6IG1zZywgInRyZWUiOiB0cmVlX3NoYX0KICAgIGlmIHBhcmVudDoKICAgICAgICBjb21taXRbInBhcmVudHMiXSA9IFtwYXJlbnRdCiAgICByZXMgPSBnaChbInJlcG9zLyVzL2dpdC9jb21taXRzIiAlIFJFUE8sICItLWlucHV0IiwgIi0iXSwganNvbi5kdW1wcyhjb21taXQpKQogICAgaWYgcmVzLnJldHVybmNvZGUgIT0gMDoKICAgICAgICBwcmludCgiY3JlYXRlIGNvbW1pdCBmYWlsZWQ6IiwgcmVzLnN0ZGVycls6ODAwXSk7IHJldHVybiAxCiAgICBzaGEgPSBqc29uLmxvYWRzKHJlcy5zdGRvdXQpWyJzaGEiXQogICAgcHJpbnQoImNvbW1pdDoiLCBzaGEpCiAgICBpZiBwYXJlbnQ6CiAgICAgICAgcmVzID0gZ2goWyJyZXBvcy8lcy9naXQvcmVmcy9oZWFkcy9tYWluIiAlIFJFUE8sICItWCIsICJQQVRDSCIsICItLWlucHV0IiwgIi0iXSwganNvbi5kdW1wcyh7InNoYSI6IHNoYSwgImZvcmNlIjogVHJ1ZX0pKQogICAgZWxzZToKICAgICAgICByZXMgPSBnaChbInJlcG9zLyVzL2dpdC9yZWZzIiAlIFJFUE8sICItLWlucHV0IiwgIi0iXSwganNvbi5kdW1wcyh7InJlZiI6ICJyZWZzL2hlYWRzL21haW4iLCAic2hhIjogc2hhfSkpCiAgICBpZiByZXMucmV0dXJuY29kZSAhPSAwOgogICAgICAgIHByaW50KCJ1cGRhdGUgcmVmIGZhaWxlZDoiLCByZXMuc3RkZXJyWzo4MDBdKTsgcmV0dXJuIDEKICAgIHByaW50KCJyZWYgdXBkYXRlZCIpCiAgICByZXMgPSBnaChbInJlcG9zLyVzL3BhZ2VzIiAlIFJFUE8sICItLWlucHV0IiwgIi0iXSwganNvbi5kdW1wcyh7InNvdXJjZSI6IHsiYnJhbmNoIjogIm1haW4iLCAicGF0aCI6ICIvIn19KSkKICAgIHByaW50KCJwYWdlczoiLCAocmVzLnN0ZG91dCBvciByZXMuc3RkZXJyIG9yICIiKS5zdHJpcCgpWzoyMDBdKQogICAgZ2goWyJyZXBvcy8lcy9wYWdlcy9idWlsZHMiICUgUkVQTywgIi1YIiwgIlBPU1QiXSkKICAgIGZvciBfIGluIHJhbmdlKDYwKToKICAgICAgICB0aW1lLnNsZWVwKDUpCiAgICAgICAgciA9IGdoKFsicmVwb3MvJXMvcGFnZXMvYnVpbGRzL2xhdGVzdCIgJSBSRVBPXSkKICAgICAgICBpZiByLnJldHVybmNvZGUgIT0gMDoKICAgICAgICAgICAgY29udGludWUKICAgICAgICBpbmZvID0ganNvbi5sb2FkcyhyLnN0ZG91dCkKICAgICAgICBzdGF0dXMgPSBpbmZvLmdldCgic3RhdHVzIikKICAgICAgICBwcmludCgiYnVpbGQ6Iiwgc3RhdHVzKQogICAgICAgIGlmIHN0YXR1cyA9PSAiYnVpbHQiOgogICAgICAgICAgICBwcmludCgidXJsOiIsIGluZm8uZ2V0KCJ1cmwiKSBvciAiaHR0cHM6Ly9sdWx1MzEwMy5naXRodWIuaW8vY29tcG9zaXRpb24tY29ycmVjdC8iKQogICAgICAgICAgICByZXR1cm4gMAogICAgICAgIGlmIHN0YXR1cyA9PSAiZXJyb3JlZCI6CiAgICAgICAgICAgIHByaW50KCJidWlsZCBlcnJvcjoiLCBqc29uLmR1bXBzKGluZm8pWzo2MDBdKTsgcmV0dXJuIDEKICAgIHByaW50KCJidWlsZCB0aW1lb3V0Iik7IHJldHVybiAxCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgc3lzLmV4aXQobWFpbigpKQo=
+#!/usr/bin/env python3
+"""用 GitHub API 提交并发布（git push 网络不通时使用）。"""
+import base64, hashlib, json, os, subprocess, sys, time
+
+REPO = os.environ.get("DEPLOY_REPO", "LuLu3103/composition-correct")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SKIP_DIRS = {".git", "shots", "node_modules", "__pycache__"}
+SKIP_FILES = {"提示词.txt"}
+TEXT_EXT = {".html", ".htm", ".css", ".js", ".mjs", ".json", ".webmanifest", ".svg", ".md", ".txt", ".yml", ".yaml"}
+
+def gh(args, payload=None):
+    proc = subprocess.run(["gh", "api"] + args, input=payload, capture_output=True, text=True, encoding="utf-8")
+    return proc
+
+def collect_files():
+    files = []
+    for dirpath, dirnames, filenames in os.walk(ROOT):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for name in filenames:
+            full = os.path.join(dirpath, name)
+            rel = os.path.relpath(full, ROOT).replace(os.sep, "/")
+            if rel in SKIP_FILES:
+                continue
+            if name.startswith(".") and name not in {".nojekyll", ".gitignore"}:
+                continue
+            files.append(rel)
+    files.sort()
+    return files
+
+BLOB_CACHE = {}
+
+def make_blob(data):
+    """二进制文件必须走 /git/blobs 建 blob：trees 接口的 content 只按 utf-8 文本处理，写 base64 会把文件写坏。"""
+    key = hashlib.sha1(data).hexdigest()
+    if key in BLOB_CACHE:
+        return BLOB_CACHE[key]
+    payload = json.dumps({"content": base64.b64encode(data).decode("ascii"), "encoding": "base64"})
+    res = gh(["repos/%s/git/blobs" % REPO, "--input", "-"], payload)
+    if res.returncode != 0:
+        raise RuntimeError("create blob failed for %s: %s" % (key, res.stderr[:300]))
+    sha = json.loads(res.stdout)["sha"]
+    BLOB_CACHE[key] = sha
+    return sha
+
+def entry_for(rel):
+    data = open(os.path.join(ROOT, rel), "rb").read()
+    ext = os.path.splitext(rel)[1].lower()
+    if ext in TEXT_EXT or rel in {".nojekyll", ".gitignore"}:
+        try:
+            return {"path": rel, "mode": "100644", "type": "blob", "content": data.decode("utf-8")}
+        except UnicodeDecodeError:
+            pass
+    return {"path": rel, "mode": "100644", "type": "blob", "sha": make_blob(data)}
+
+def main():
+    files = collect_files()
+    print("files:", len(files))
+    for f in files:
+        print("  -", f)
+    if "--dry-run" in sys.argv:
+        return 0
+    parent = None
+    ref = gh(["repos/%s/git/ref/heads/main" % REPO])
+    if ref.returncode == 0:
+        parent = json.loads(ref.stdout)["object"]["sha"]
+        print("parent:", parent)
+    else:
+        print("empty repo, bootstrapping README ...")
+        boot = {
+            "message": "chore: bootstrap repository",
+            "content": base64.b64encode(open(os.path.join(ROOT, "README.md"), "rb").read()).decode("ascii"),
+        }
+        res = gh(["repos/%s/contents/README.md" % REPO, "-X", "PUT", "--input", "-"], json.dumps(boot))
+        if res.returncode != 0:
+            print("bootstrap failed:", res.stderr[:600])
+            return 1
+        ref = gh(["repos/%s/git/ref/heads/main" % REPO])
+        parent = json.loads(ref.stdout)["object"]["sha"]
+        print("parent:", parent)
+
+    entries = [entry_for(f) for f in files]
+    res = gh(["repos/%s/git/trees" % REPO, "--input", "-"], json.dumps({"tree": entries}))
+    if res.returncode != 0:
+        print("create tree failed:", res.stderr[:800]); return 1
+    tree_sha = json.loads(res.stdout)["sha"]
+    print("tree:", tree_sha)
+    msg = "feat: 考研作文批改器 V1.0.0"
+    commit = {"message": msg, "tree": tree_sha}
+    if parent:
+        commit["parents"] = [parent]
+    res = gh(["repos/%s/git/commits" % REPO, "--input", "-"], json.dumps(commit))
+    if res.returncode != 0:
+        print("create commit failed:", res.stderr[:800]); return 1
+    sha = json.loads(res.stdout)["sha"]
+    print("commit:", sha)
+    if parent:
+        res = gh(["repos/%s/git/refs/heads/main" % REPO, "-X", "PATCH", "--input", "-"], json.dumps({"sha": sha, "force": True}))
+    else:
+        res = gh(["repos/%s/git/refs" % REPO, "--input", "-"], json.dumps({"ref": "refs/heads/main", "sha": sha}))
+    if res.returncode != 0:
+        print("update ref failed:", res.stderr[:800]); return 1
+    print("ref updated")
+    res = gh(["repos/%s/pages" % REPO, "--input", "-"], json.dumps({"source": {"branch": "main", "path": "/"}}))
+    print("pages:", (res.stdout or res.stderr or "").strip()[:200])
+    gh(["repos/%s/pages/builds" % REPO, "-X", "POST"])
+    for _ in range(60):
+        time.sleep(5)
+        r = gh(["repos/%s/pages/builds/latest" % REPO])
+        if r.returncode != 0:
+            continue
+        info = json.loads(r.stdout)
+        status = info.get("status")
+        print("build:", status)
+        if status == "built":
+            print("url:", info.get("url") or "https://lulu3103.github.io/composition-correct/")
+            return 0
+        if status == "errored":
+            print("build error:", json.dumps(info)[:600]); return 1
+    print("build timeout"); return 1
+
+if __name__ == "__main__":
+    sys.exit(main())

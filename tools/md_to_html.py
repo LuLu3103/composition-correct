@@ -1,1 +1,202 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwojIC0qLSBjb2Rpbmc6IHV0Zi04IC0qLQoiIiLmioogUkVBRE1FLm1kIOi9rOaIkOmdmeaAgeivtOaYjuS5piBtYW51YWwuaHRtbO+8iOWbvueJh+i1sCBnaXRodWIuaW/vvIzop4Tpgb8gcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSDooqvlopnvvInjgIIiIiIKaW1wb3J0IGh0bWwKaW1wb3J0IG9zCmltcG9ydCByZQoKUk9PVCA9IG9zLnBhdGguZGlybmFtZShvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5hYnNwYXRoKF9fZmlsZV9fKSkpClNSQyA9IG9zLnBhdGguam9pbihST09ULCAiUkVBRE1FLm1kIikKT1VUID0gb3MucGF0aC5qb2luKFJPT1QsICJtYW51YWwuaHRtbCIpCgpJTUdfQkFTRSA9ICJodHRwczovL2x1bHUzMTAzLmdpdGh1Yi5pby9jb21wb3NpdGlvbi1jb3JyZWN0LyIKQlQgPSBjaHIoOTYpCgoKZGVmIGlubGluZSh0ZXh0KToKICAgIHNsb3RzID0ge30KCiAgICBkZWYgc3Rhc2goZnJhZ21lbnQpOgogICAgICAgIGtleSA9ICJceDAwJWRceDAwIiAlIGxlbihzbG90cykKICAgICAgICBzbG90c1trZXldID0gZnJhZ21lbnQKICAgICAgICByZXR1cm4ga2V5CgogICAgZGVmIGF1dG8obSk6CiAgICAgICAgdXJsID0gbS5ncm91cCgxKQogICAgICAgIHJldHVybiBzdGFzaCgnPGEgaHJlZj0iJXMiIHRhcmdldD0iX2JsYW5rIiByZWw9Im5vb3BlbmVyIj4lczwvYT4nICUgKGh0bWwuZXNjYXBlKHVybCwgcXVvdGU9VHJ1ZSksIGh0bWwuZXNjYXBlKHVybCkpKQoKICAgIHRleHQgPSByZS5zdWIociI8KGh0dHBzPzovL1tePlxzXSspPiIsIGF1dG8sIHRleHQpCiAgICB0ZXh0ID0gcmUuc3ViKEJUICsgIihbXiIgKyBCVCArICJdKykiICsgQlQsIGxhbWJkYSBtOiBzdGFzaCgiPGNvZGU+JXM8L2NvZGU+IiAlIGh0bWwuZXNjYXBlKG0uZ3JvdXAoMSkpKSwgdGV4dCkKCiAgICBkZWYgaW1hZ2UobSk6CiAgICAgICAgYWx0LCBzcmMgPSBtLmdyb3VwKDEpLCBtLmdyb3VwKDIpCiAgICAgICAgcmV0dXJuIHN0YXNoKCc8aW1nIHNyYz0iJXMiIGFsdD0iJXMiIGxvYWRpbmc9ImxhenkiPicgJSAoaHRtbC5lc2NhcGUoc3JjLCBxdW90ZT1UcnVlKSwgaHRtbC5lc2NhcGUoYWx0LCBxdW90ZT1UcnVlKSkpCgogICAgdGV4dCA9IHJlLnN1YihyIiFcWyhbXlxdXSopXF1cKChbXilcc10rKVwpIiwgaW1hZ2UsIHRleHQpCgogICAgZGVmIGxpbmsobSk6CiAgICAgICAgbGFiZWwsIHVybCA9IG0uZ3JvdXAoMSksIG0uZ3JvdXAoMikKICAgICAgICByZXR1cm4gc3Rhc2goJzxhIGhyZWY9IiVzIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciI+JXM8L2E+JyAlIChodG1sLmVzY2FwZSh1cmwsIHF1b3RlPVRydWUpLCBsYWJlbCkpCgogICAgdGV4dCA9IHJlLnN1YihyIlxbKFteXF1dKylcXVwoKFteKVxzXSspXCkiLCBsaW5rLCB0ZXh0KQogICAgdGV4dCA9IGh0bWwuZXNjYXBlKHRleHQsIHF1b3RlPUZhbHNlKQogICAgdGV4dCA9IHJlLnN1YihyIlwqXCooW14qXSspXCpcKiIsIGxhbWJkYSBtOiAiPHN0cm9uZz4lczwvc3Ryb25nPiIgJSBtLmdyb3VwKDEpLCB0ZXh0KQogICAgZm9yIGtleSwgZnJhZ21lbnQgaW4gc2xvdHMuaXRlbXMoKToKICAgICAgICB0ZXh0ID0gdGV4dC5yZXBsYWNlKGtleSwgZnJhZ21lbnQpCiAgICByZXR1cm4gdGV4dAoKCmRlZiByZW5kZXJfdGFibGUobGluZXMpOgogICAgcm93cyA9IFtbYy5zdHJpcCgpIGZvciBjIGluIGxuLnN0cmlwKCkuc3RyaXAoInwiKS5zcGxpdCgifCIpXSBmb3IgbG4gaW4gbGluZXNdCiAgICBoZWFkLCBib2R5ID0gTm9uZSwgcm93cwogICAgaWYgbGVuKHJvd3MpID49IDIgYW5kIHJvd3NbMV0gYW5kIHJlLm1hdGNoKHIiXjo/LXsyLH06PyQiLCByb3dzWzFdWzBdLnJlcGxhY2UoIiAiLCAiIikpOgogICAgICAgIGhlYWQsIGJvZHkgPSByb3dzWzBdLCByb3dzWzI6XQogICAgb3V0ID0gWyc8ZGl2IGNsYXNzPSJ0YWJsZS13cmFwIj48dGFibGU+J10KICAgIGlmIGhlYWQ6CiAgICAgICAgb3V0LmFwcGVuZCgiPHRoZWFkPjx0cj4iICsgIiIuam9pbigiPHRoPiVzPC90aD4iICUgaW5saW5lKGMpIGZvciBjIGluIGhlYWQpICsgIjwvdHI+PC90aGVhZD4iKQogICAgb3V0LmFwcGVuZCgiPHRib2R5PiIpCiAgICBmb3Igcm93IGluIGJvZHk6CiAgICAgICAgaWYgbm90IGFueShyb3cpOgogICAgICAgICAgICBjb250aW51ZQogICAgICAgIG91dC5hcHBlbmQoIjx0cj4iICsgIiIuam9pbigiPHRkPiVzPC90ZD4iICUgaW5saW5lKGMpIGZvciBjIGluIHJvdykgKyAiPC90cj4iKQogICAgb3V0LmFwcGVuZCgiPC90Ym9keT48L3RhYmxlPjwvZGl2PiIpCiAgICByZXR1cm4gIlxuIi5qb2luKG91dCkKCgpkZWYgY29udmVydChtZCk6CiAgICBsaW5lcyA9IG1kLnNwbGl0KCJcbiIpCiAgICBvdXQsIGksIG4gPSBbXSwgMCwgbGVuKGxpbmVzKQogICAgd2hpbGUgaSA8IG46CiAgICAgICAgbGluZSwgc3RyaXBwZWQgPSBsaW5lc1tpXSwgbGluZXNbaV0uc3RyaXAoKQoKICAgICAgICBpZiBzdHJpcHBlZC5zdGFydHN3aXRoKEJUICogMyk6CiAgICAgICAgICAgIGJ1ZiA9IFtdCiAgICAgICAgICAgIGkgKz0gMQogICAgICAgICAgICB3aGlsZSBpIDwgbiBhbmQgbm90IGxpbmVzW2ldLnN0cmlwKCkuc3RhcnRzd2l0aChCVCAqIDMpOgogICAgICAgICAgICAgICAgYnVmLmFwcGVuZChsaW5lc1tpXSkKICAgICAgICAgICAgICAgIGkgKz0gMQogICAgICAgICAgICBpICs9IDEKICAgICAgICAgICAgb3V0LmFwcGVuZCgnPHByZSBjbGFzcz0iY29kZSI+PGNvZGU+JXM8L2NvZGU+PC9wcmU+JyAlIGh0bWwuZXNjYXBlKCJcbiIuam9pbihidWYpKSkKICAgICAgICAgICAgY29udGludWUKCiAgICAgICAgaWYgbm90IHN0cmlwcGVkOgogICAgICAgICAgICBpICs9IDEKICAgICAgICAgICAgY29udGludWUKCiAgICAgICAgaWYgcmUubWF0Y2gociJeLS0tKyQiLCBzdHJpcHBlZCk6CiAgICAgICAgICAgIG91dC5hcHBlbmQoIjxocj4iKQogICAgICAgICAgICBpICs9IDEKICAgICAgICAgICAgY29udGludWUKCiAgICAgICAgbSA9IHJlLm1hdGNoKHIiXigjezEsNH0pXHMrKC4qKSQiLCBzdHJpcHBlZCkKICAgICAgICBpZiBtOgogICAgICAgICAgICBsZXZlbCA9IGxlbihtLmdyb3VwKDEpKQogICAgICAgICAgICBvdXQuYXBwZW5kKCI8aCVkPiVzPC9oJWQ+IiAlIChsZXZlbCwgaW5saW5lKG0uZ3JvdXAoMikpLCBsZXZlbCkpCiAgICAgICAgICAgIGkgKz0gMQogICAgICAgICAgICBjb250aW51ZQoKICAgICAgICBpZiBzdHJpcHBlZC5zdGFydHN3aXRoKCJ8Iik6CiAgICAgICAgICAgIGJsb2NrID0gW10KICAgICAgICAgICAgd2hpbGUgaSA8IG4gYW5kIGxpbmVzW2ldLnN0cmlwKCkuc3RhcnRzd2l0aCgifCIpOgogICAgICAgICAgICAgICAgYmxvY2suYXBwZW5kKGxpbmVzW2ldKQogICAgICAgICAgICAgICAgaSArPSAxCiAgICAgICAgICAgIG91dC5hcHBlbmQocmVuZGVyX3RhYmxlKGJsb2NrKSkKICAgICAgICAgICAgY29udGludWUKCiAgICAgICAgaWYgc3RyaXBwZWQuc3RhcnRzd2l0aCgiPiIpOgogICAgICAgICAgICBibG9jayA9IFtdCiAgICAgICAgICAgIHdoaWxlIGkgPCBuIGFuZCBsaW5lc1tpXS5zdHJpcCgpLnN0YXJ0c3dpdGgoIj4iKToKICAgICAgICAgICAgICAgIGJsb2NrLmFwcGVuZChsaW5lc1tpXS5zdHJpcCgpWzE6XS5zdHJpcCgpKQogICAgICAgICAgICAgICAgaSArPSAxCiAgICAgICAgICAgIG91dC5hcHBlbmQoIjxibG9ja3F1b3RlPiVzPC9ibG9ja3F1b3RlPiIgJSBpbmxpbmUoIiAiLmpvaW4oYmxvY2spKSkKICAgICAgICAgICAgY29udGludWUKCiAgICAgICAgaWYgcmUubWF0Y2gociJeWy0qXVxzKyIsIHN0cmlwcGVkKToKICAgICAgICAgICAgYmxvY2sgPSBbXQogICAgICAgICAgICB3aGlsZSBpIDwgbiBhbmQgcmUubWF0Y2gociJeXHMqWy0qXVxzKyIsIGxpbmVzW2ldKToKICAgICAgICAgICAgICAgIGJsb2NrLmFwcGVuZChyZS5zdWIociJeXHMqWy0qXVxzKyIsICIiLCBsaW5lc1tpXSkpCiAgICAgICAgICAgICAgICBpICs9IDEKICAgICAgICAgICAgb3V0LmFwcGVuZCgiPHVsPiIgKyAiIi5qb2luKCI8bGk+JXM8L2xpPiIgJSBpbmxpbmUoeCkgZm9yIHggaW4gYmxvY2spICsgIjwvdWw+IikKICAgICAgICAgICAgY29udGludWUKCiAgICAgICAgaWYgcmUubWF0Y2gociJeXGQrXC5ccysiLCBzdHJpcHBlZCk6CiAgICAgICAgICAgIGJsb2NrID0gW10KICAgICAgICAgICAgd2hpbGUgaSA8IG4gYW5kIHJlLm1hdGNoKHIiXlxzKlxkK1wuXHMrIiwgbGluZXNbaV0pOgogICAgICAgICAgICAgICAgYmxvY2suYXBwZW5kKHJlLnN1YihyIl5ccypcZCtcLlxzKyIsICIiLCBsaW5lc1tpXSkpCiAgICAgICAgICAgICAgICBpICs9IDEKICAgICAgICAgICAgb3V0LmFwcGVuZCgiPG9sPiIgKyAiIi5qb2luKCI8bGk+JXM8L2xpPiIgJSBpbmxpbmUoeCkgZm9yIHggaW4gYmxvY2spICsgIjwvb2w+IikKICAgICAgICAgICAgY29udGludWUKCiAgICAgICAgYmxvY2sgPSBbXQogICAgICAgIHdoaWxlIChpIDwgbiBhbmQgbGluZXNbaV0uc3RyaXAoKQogICAgICAgICAgICAgICBhbmQgbm90IHJlLm1hdGNoKHIiXigjezEsNH1cc3xcfHw+fC0tLSskKSIsIGxpbmVzW2ldLnN0cmlwKCkpCiAgICAgICAgICAgICAgIGFuZCBub3QgbGluZXNbaV0uc3RyaXAoKS5zdGFydHN3aXRoKEJUICogMykKICAgICAgICAgICAgICAgYW5kIG5vdCByZS5tYXRjaChyIl5ccyooWy0qXXxcZCtcLilccysiLCBsaW5lc1tpXSkpOgogICAgICAgICAgICBibG9jay5hcHBlbmQobGluZXNbaV0uc3RyaXAoKSkKICAgICAgICAgICAgaSArPSAxCiAgICAgICAgb3V0LmFwcGVuZCgiPHA+JXM8L3A+IiAlIGlubGluZSgiICIuam9pbihibG9jaykpKQogICAgcmV0dXJuICJcbiIuam9pbihvdXQpCgoKVEVNUExBVEUgPSAiIiI8IURPQ1RZUEUgaHRtbD4KPGh0bWwgbGFuZz0iemgtQ04iPgo8aGVhZD4KPG1ldGEgY2hhcnNldD0idXRmLTgiPgo8bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTEsIHZpZXdwb3J0LWZpdD1jb3ZlciI+Cjx0aXRsZT7kvZzmlofmibnmlLnlmaggwrcg5L2/55So6K+05piO5LmmPC90aXRsZT4KPGxpbmsgcmVsPSJpY29uIiBocmVmPSJhc3NldHMvaWNvbnMvZmF2aWNvbi5zdmciPgo8c3R5bGU+Cjpyb290ey0tYmx1ZTojMmY3Y2Y2Oy0tYmc6I2YyZjRmODstLWNhcmQ6I2ZmZjstLXRleHQ6IzE2MjAyZTstLW11dGVkOiM2YjczODM7LS1saW5lOiNlNmU5ZjB9Cip7Ym94LXNpemluZzpib3JkZXItYm94fQpib2R5e21hcmdpbjowO2JhY2tncm91bmQ6dmFyKC0tYmcpO292ZXJmbG93LXg6aGlkZGVuO2NvbG9yOnZhcigtLXRleHQpO2ZvbnQ6MTZweC8xLjc1IC1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCJQaW5nRmFuZyBTQyIsIkhpcmFnaW5vIFNhbnMgR0IiLCJNaWNyb3NvZnQgWWFIZWkiLHNhbnMtc2VyaWY7LXdlYmtpdC1mb250LXNtb290aGluZzphbnRpYWxpYXNlZH0KLnRvcHtwb3NpdGlvbjpzdGlja3k7dG9wOjA7ei1pbmRleDo5O2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47Z2FwOjEycHg7cGFkZGluZzoxMnB4IDE4cHg7YmFja2dyb3VuZDpyZ2JhKDI1NSwyNTUsMjU1LC44Nik7YmFja2Ryb3AtZmlsdGVyOnNhdHVyYXRlKDE4MCUpIGJsdXIoMThweCk7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgdmFyKC0tbGluZSl9Ci50b3AgYntmb250LXNpemU6MTVweDtsZXR0ZXItc3BhY2luZzouMnB4fQoudG9wIGF7Zm9udC1zaXplOjEzcHg7Y29sb3I6dmFyKC0tYmx1ZSk7dGV4dC1kZWNvcmF0aW9uOm5vbmU7Zm9udC13ZWlnaHQ6NjAwO2JvcmRlcjowfQoud3JhcHttYXgtd2lkdGg6NzYwcHg7bWFyZ2luOjAgYXV0bztwYWRkaW5nOjE4cHggMTZweCA2NHB4O292ZXJmbG93LXg6Y2xpcH0KYXJ0aWNsZXtiYWNrZ3JvdW5kOnZhcigtLWNhcmQpO2JvcmRlci1yYWRpdXM6MjJweDtwYWRkaW5nOjIycHggMjBweDtib3gtc2hhZG93OjAgMTBweCAzMHB4IHJnYmEoMjIsMzIsNDYsLjA2KX0KaDF7Zm9udC1zaXplOjI2cHg7bGluZS1oZWlnaHQ6MS4zO21hcmdpbjouMmVtIDAgLjVlbX0KaDJ7Zm9udC1zaXplOjIwcHg7bWFyZ2luOjEuNmVtIDAgLjZlbTtwYWRkaW5nLXRvcDouNmVtO2JvcmRlci10b3A6MXB4IHNvbGlkIHZhcigtLWxpbmUpfQpoM3tmb250LXNpemU6MTdweDttYXJnaW46MS4zZW0gMCAuNWVtO2NvbG9yOiMyMDMwNGF9CnB7bWFyZ2luOi43ZW0gMH0KYmxvY2txdW90ZXttYXJnaW46MTRweCAwO3BhZGRpbmc6MTJweCAxNnB4O2JhY2tncm91bmQ6I2VlZjRmZjtib3JkZXItbGVmdDozcHggc29saWQgdmFyKC0tYmx1ZSk7Ym9yZGVyLXJhZGl1czowIDEycHggMTJweCAwO2NvbG9yOiMyYTNhNTV9CmltZ3tkaXNwbGF5OmJsb2NrO3dpZHRoOjEwMCU7bWF4LXdpZHRoOjQyMHB4O2hlaWdodDphdXRvO21hcmdpbjoxNHB4IGF1dG87Ym9yZGVyLXJhZGl1czoxNnB4O2JvcmRlcjoxcHggc29saWQgdmFyKC0tbGluZSk7Ym94LXNoYWRvdzowIDhweCAyMnB4IHJnYmEoMjIsMzIsNDYsLjA4KX0KdWwsb2x7bWFyZ2luOi42ZW0gMDtwYWRkaW5nLWxlZnQ6MS4zZW19Cmxpe21hcmdpbjouM2VtIDB9Cmhye2JvcmRlcjowO2JvcmRlci10b3A6MXB4IHNvbGlkIHZhcigtLWxpbmUpO21hcmdpbjoyOHB4IDB9CmNvZGV7YmFja2dyb3VuZDojZjJmNGY4O2JvcmRlci1yYWRpdXM6NnB4O3BhZGRpbmc6MXB4IDVweDtmb250LXNpemU6LjllbTtmb250LWZhbWlseTp1aS1tb25vc3BhY2UsU0ZNb25vLVJlZ3VsYXIsTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlfQpwcmUuY29kZXtiYWNrZ3JvdW5kOiMwZjE3MmE7bWF4LXdpZHRoOjEwMCU7Y29sb3I6I2RiZTRmNTtib3JkZXItcmFkaXVzOjE0cHg7cGFkZGluZzoxNHB4IDE2cHg7b3ZlcmZsb3c6YXV0bztmb250LXNpemU6MTNweDtsaW5lLWhlaWdodDoxLjZ9CnByZS5jb2RlIGNvZGV7YmFja2dyb3VuZDpub25lO3BhZGRpbmc6MDtjb2xvcjppbmhlcml0fQoudGFibGUtd3JhcHtvdmVyZmxvdy14OmF1dG87bWFyZ2luOjE0cHggMH0KdGFibGV7d2lkdGg6MTAwJTtib3JkZXItY29sbGFwc2U6Y29sbGFwc2U7Zm9udC1zaXplOjE0cHg7dGFibGUtbGF5b3V0OmZpeGVkfQp0aCx0ZHtib3JkZXI6MXB4IHNvbGlkIHZhcigtLWxpbmUpO3BhZGRpbmc6OHB4IDEwcHg7dGV4dC1hbGlnbjpsZWZ0O3ZlcnRpY2FsLWFsaWduOnRvcDtvdmVyZmxvdy13cmFwOmFueXdoZXJlO3dvcmQtYnJlYWs6YnJlYWstd29yZH0KdGh7YmFja2dyb3VuZDojZjdmOWZjO2ZvbnQtd2VpZ2h0OjYwMH0KYXtjb2xvcjp2YXIoLS1ibHVlKTt0ZXh0LWRlY29yYXRpb246bm9uZTtib3JkZXItYm90dG9tOjFweCBzb2xpZCByZ2JhKDQ3LDEyNCwyNDYsLjMpO292ZXJmbG93LXdyYXA6YW55d2hlcmV9Ci5mb290e21hcmdpbi10b3A6MThweDt0ZXh0LWFsaWduOmNlbnRlcjtjb2xvcjp2YXIoLS1tdXRlZCk7Zm9udC1zaXplOjEycHh9Ci5mb290IGF7Y29sb3I6dmFyKC0tbXV0ZWQpfQpAbWVkaWEgKG1heC13aWR0aDo1MjBweCl7YXJ0aWNsZXtwYWRkaW5nOjE4cHggMTVweDtib3JkZXItcmFkaXVzOjE4cHh9aDF7Zm9udC1zaXplOjIycHh9aDJ7Zm9udC1zaXplOjE4cHh9fQo8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5Pgo8ZGl2IGNsYXNzPSJ0b3AiPjxiPuS9nOaWh+aJueaUueWZqCDCtyDor7TmmI7kuaY8L2I+PGEgaHJlZj0iLi8iPuaJk+W8gOW6lOeUqCDihpI8L2E+PC9kaXY+CjxkaXYgY2xhc3M9IndyYXAiPgo8YXJ0aWNsZT4KX19DT05URU5UX18KPC9hcnRpY2xlPgo8ZGl2IGNsYXNzPSJmb290Ij48YSBocmVmPSIuLyI+6L+U5Zue5bqU55SoPC9hPiDCtyA8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vTHVMdTMxMDMvY29tcG9zaXRpb24tY29ycmVjdCIgdGFyZ2V0PSJfYmxhbmsiIHJlbD0ibm9vcGVuZXIiPkdpdEh1YiDku5PlupM8L2E+IMK3IFY2LjA8L2Rpdj4KPC9kaXY+CjwvYm9keT4KPC9odG1sPgoiIiIKCgpkZWYgbWFpbigpOgogICAgbWQgPSBvcGVuKFNSQywgZW5jb2Rpbmc9InV0Zi04IikucmVhZCgpCiAgICAjIFJFQURNRSDph4znu5kgR2l0SHViIOivu+iAheeci+eahOOAjOWbvueJh+eci+S4jeWIsOOAjeaPkOekuu+8jOivtOaYjuS5puWGheS4jemcgOimgQogICAgbWQgPSAiXG4iLmpvaW4obG4gZm9yIGxuIGluIG1kLnNwbGl0KCJcbiIpIGlmIG5vdCBsbi5zdGFydHN3aXRoKCI+ICoq5Zu+54mH55yL5LiN5YiwIikpCiAgICBwYWdlID0gVEVNUExBVEUucmVwbGFjZSgiX19DT05URU5UX18iLCBjb252ZXJ0KG1kKSkKICAgIG9wZW4oT1VULCAidyIsIGVuY29kaW5nPSJ1dGYtOCIsIG5ld2xpbmU9IlxuIikud3JpdGUocGFnZSkKICAgIHByaW50KCJ3cm90ZSIsIE9VVCwgbGVuKHBhZ2UpLCAiYnl0ZXMiKQoKCmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBtYWluKCkK
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""把 README.md 转成静态说明书 manual.html（图片走 github.io，规避 raw.githubusercontent.com 被墙）。"""
+import html
+import os
+import re
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "README.md")
+OUT = os.path.join(ROOT, "manual.html")
+
+IMG_BASE = "https://lulu3103.github.io/composition-correct/"
+BT = chr(96)
+
+
+def inline(text):
+    slots = {}
+
+    def stash(fragment):
+        key = "\x00%d\x00" % len(slots)
+        slots[key] = fragment
+        return key
+
+    def auto(m):
+        url = m.group(1)
+        return stash('<a href="%s" target="_blank" rel="noopener">%s</a>' % (html.escape(url, quote=True), html.escape(url)))
+
+    text = re.sub(r"<(https?://[^>\s]+)>", auto, text)
+    text = re.sub(BT + "([^" + BT + "]+)" + BT, lambda m: stash("<code>%s</code>" % html.escape(m.group(1))), text)
+
+    def image(m):
+        alt, src = m.group(1), m.group(2)
+        return stash('<img src="%s" alt="%s" loading="lazy">' % (html.escape(src, quote=True), html.escape(alt, quote=True)))
+
+    text = re.sub(r"!\[([^\]]*)\]\(([^)\s]+)\)", image, text)
+
+    def link(m):
+        label, url = m.group(1), m.group(2)
+        return stash('<a href="%s" target="_blank" rel="noopener">%s</a>' % (html.escape(url, quote=True), label))
+
+    text = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", link, text)
+    text = html.escape(text, quote=False)
+    text = re.sub(r"\*\*([^*]+)\*\*", lambda m: "<strong>%s</strong>" % m.group(1), text)
+    for key, fragment in slots.items():
+        text = text.replace(key, fragment)
+    return text
+
+
+def render_table(lines):
+    rows = [[c.strip() for c in ln.strip().strip("|").split("|")] for ln in lines]
+    head, body = None, rows
+    if len(rows) >= 2 and rows[1] and re.match(r"^:?-{2,}:?$", rows[1][0].replace(" ", "")):
+        head, body = rows[0], rows[2:]
+    out = ['<div class="table-wrap"><table>']
+    if head:
+        out.append("<thead><tr>" + "".join("<th>%s</th>" % inline(c) for c in head) + "</tr></thead>")
+    out.append("<tbody>")
+    for row in body:
+        if not any(row):
+            continue
+        out.append("<tr>" + "".join("<td>%s</td>" % inline(c) for c in row) + "</tr>")
+    out.append("</tbody></table></div>")
+    return "\n".join(out)
+
+
+def convert(md):
+    lines = md.split("\n")
+    out, i, n = [], 0, len(lines)
+    while i < n:
+        line, stripped = lines[i], lines[i].strip()
+
+        if stripped.startswith(BT * 3):
+            buf = []
+            i += 1
+            while i < n and not lines[i].strip().startswith(BT * 3):
+                buf.append(lines[i])
+                i += 1
+            i += 1
+            out.append('<pre class="code"><code>%s</code></pre>' % html.escape("\n".join(buf)))
+            continue
+
+        if not stripped:
+            i += 1
+            continue
+
+        if re.match(r"^---+$", stripped):
+            out.append("<hr>")
+            i += 1
+            continue
+
+        m = re.match(r"^(#{1,4})\s+(.*)$", stripped)
+        if m:
+            level = len(m.group(1))
+            out.append("<h%d>%s</h%d>" % (level, inline(m.group(2)), level))
+            i += 1
+            continue
+
+        if stripped.startswith("|"):
+            block = []
+            while i < n and lines[i].strip().startswith("|"):
+                block.append(lines[i])
+                i += 1
+            out.append(render_table(block))
+            continue
+
+        if stripped.startswith(">"):
+            block = []
+            while i < n and lines[i].strip().startswith(">"):
+                block.append(lines[i].strip()[1:].strip())
+                i += 1
+            out.append("<blockquote>%s</blockquote>" % inline(" ".join(block)))
+            continue
+
+        if re.match(r"^[-*]\s+", stripped):
+            block = []
+            while i < n and re.match(r"^\s*[-*]\s+", lines[i]):
+                block.append(re.sub(r"^\s*[-*]\s+", "", lines[i]))
+                i += 1
+            out.append("<ul>" + "".join("<li>%s</li>" % inline(x) for x in block) + "</ul>")
+            continue
+
+        if re.match(r"^\d+\.\s+", stripped):
+            block = []
+            while i < n and re.match(r"^\s*\d+\.\s+", lines[i]):
+                block.append(re.sub(r"^\s*\d+\.\s+", "", lines[i]))
+                i += 1
+            out.append("<ol>" + "".join("<li>%s</li>" % inline(x) for x in block) + "</ol>")
+            continue
+
+        block = []
+        while (i < n and lines[i].strip()
+               and not re.match(r"^(#{1,4}\s|\||>|---+$)", lines[i].strip())
+               and not lines[i].strip().startswith(BT * 3)
+               and not re.match(r"^\s*([-*]|\d+\.)\s+", lines[i])):
+            block.append(lines[i].strip())
+            i += 1
+        out.append("<p>%s</p>" % inline(" ".join(block)))
+    return "\n".join(out)
+
+
+TEMPLATE = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>作文批改器 · 使用说明书</title>
+<link rel="icon" href="assets/icons/favicon.svg">
+<style>
+:root{--blue:#2f7cf6;--bg:#f2f4f8;--card:#fff;--text:#16202e;--muted:#6b7383;--line:#e6e9f0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);overflow-x:hidden;color:var(--text);font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+.top{position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line)}
+.top b{font-size:15px;letter-spacing:.2px}
+.top a{font-size:13px;color:var(--blue);text-decoration:none;font-weight:600;border:0}
+.wrap{max-width:760px;margin:0 auto;padding:18px 16px 64px;overflow-x:clip}
+article{background:var(--card);border-radius:22px;padding:22px 20px;box-shadow:0 10px 30px rgba(22,32,46,.06)}
+h1{font-size:26px;line-height:1.3;margin:.2em 0 .5em}
+h2{font-size:20px;margin:1.6em 0 .6em;padding-top:.6em;border-top:1px solid var(--line)}
+h3{font-size:17px;margin:1.3em 0 .5em;color:#20304a}
+p{margin:.7em 0}
+blockquote{margin:14px 0;padding:12px 16px;background:#eef4ff;border-left:3px solid var(--blue);border-radius:0 12px 12px 0;color:#2a3a55}
+img{display:block;width:100%;max-width:420px;height:auto;margin:14px auto;border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 22px rgba(22,32,46,.08)}
+ul,ol{margin:.6em 0;padding-left:1.3em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+code{background:#f2f4f8;border-radius:6px;padding:1px 5px;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre.code{background:#0f172a;max-width:100%;color:#dbe4f5;border-radius:14px;padding:14px 16px;overflow:auto;font-size:13px;line-height:1.6}
+pre.code code{background:none;padding:0;color:inherit}
+.table-wrap{overflow-x:auto;margin:14px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;overflow-wrap:anywhere;word-break:break-word}
+th{background:#f7f9fc;font-weight:600}
+a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(47,124,246,.3);overflow-wrap:anywhere}
+.foot{margin-top:18px;text-align:center;color:var(--muted);font-size:12px}
+.foot a{color:var(--muted)}
+@media (max-width:520px){article{padding:18px 15px;border-radius:18px}h1{font-size:22px}h2{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="top"><b>作文批改器 · 说明书</b><a href="./">打开应用 →</a></div>
+<div class="wrap">
+<article>
+__CONTENT__
+</article>
+<div class="foot"><a href="./">返回应用</a> · <a href="https://github.com/LuLu3103/composition-correct" target="_blank" rel="noopener">GitHub 仓库</a> · V6.0</div>
+</div>
+</body>
+</html>
+"""
+
+
+def main():
+    md = open(SRC, encoding="utf-8").read()
+    # README 里给 GitHub 读者看的「图片看不到」提示，说明书内不需要
+    md = "\n".join(ln for ln in md.split("\n") if not ln.startswith("> **图片看不到"))
+    page = TEMPLATE.replace("__CONTENT__", convert(md))
+    open(OUT, "w", encoding="utf-8", newline="\n").write(page)
+    print("wrote", OUT, len(page), "bytes")
+
+
+if __name__ == "__main__":
+    main()

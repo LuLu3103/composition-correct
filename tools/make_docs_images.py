@@ -1,1 +1,19 @@
-ZnJvbSBQSUwgaW1wb3J0IEltYWdlCmltcG9ydCBvcwpvcy5tYWtlZGlycygnZG9jcy9pbWFnZXMnLCBleGlzdF9vaz1UcnVlKQpqb2JzID0gWwogICAgKCdzaG90cy9tYW51YWwvaG9tZS5wbmcnLCAnZG9jcy9pbWFnZXMvaG9tZS5qcGcnLCA0MzApLAogICAgKCdzaG90cy9tYW51YWwvcmV2aWV3LnBuZycsICdkb2NzL2ltYWdlcy9yZXZpZXcuanBnJywgNDMwKSwKICAgICgnc2hvdHMvbWFudWFsL3Jldmlldy1leHBhbmRlZC5wbmcnLCAnZG9jcy9pbWFnZXMvcmV2aWV3LWV4cGFuZGVkLmpwZycsIDQzMCksCiAgICAoJ3Nob3RzL21hbnVhbC9yZXZpZXctc2VudGVuY2VzLnBuZycsICdkb2NzL2ltYWdlcy9yZXZpZXctc2VudGVuY2VzLmpwZycsIDQzMCksCiAgICAoJ3Nob3RzL21hbnVhbC9oaXN0b3J5LnBuZycsICdkb2NzL2ltYWdlcy9oaXN0b3J5LmpwZycsIDQzMCksCiAgICAoJ3Nob3RzL21hbnVhbC9zZXR0aW5ncy5wbmcnLCAnZG9jcy9pbWFnZXMvc2V0dGluZ3MuanBnJywgNDMwKSwKICAgICgnc2hvdHMvbWFudWFsL3BpY2tlci5wbmcnLCAnZG9jcy9pbWFnZXMvcGlja2VyLmpwZycsIDQzMCksCiAgICAoJ3Nob3RzL21hbnVhbC9kZXNrdG9wLnBuZycsICdkb2NzL2ltYWdlcy9kZXNrdG9wLmpwZycsIDk2MCksCl0KZm9yIHNyYywgZHN0LCB3aWR0aCBpbiBqb2JzOgogICAgaW0gPSBJbWFnZS5vcGVuKHNyYykuY29udmVydCgnUkdCJykKICAgIGggPSByb3VuZChpbS5oZWlnaHQgKiB3aWR0aCAvIGltLndpZHRoKQogICAgaW0gPSBpbS5yZXNpemUoKHdpZHRoLCBoKSwgSW1hZ2UuTEFOQ1pPUykKICAgIGltLnNhdmUoZHN0LCAnSlBFRycsIHF1YWxpdHk9ODIsIG9wdGltaXplPVRydWUpCiAgICBwcmludChkc3QsIGltLnNpemUsIG9zLnBhdGguZ2V0c2l6ZShkc3QpKQo=
+from PIL import Image
+import os
+os.makedirs('docs/images', exist_ok=True)
+jobs = [
+    ('shots/manual/home.png', 'docs/images/home.jpg', 430),
+    ('shots/manual/review.png', 'docs/images/review.jpg', 430),
+    ('shots/manual/review-expanded.png', 'docs/images/review-expanded.jpg', 430),
+    ('shots/manual/review-sentences.png', 'docs/images/review-sentences.jpg', 430),
+    ('shots/manual/history.png', 'docs/images/history.jpg', 430),
+    ('shots/manual/settings.png', 'docs/images/settings.jpg', 430),
+    ('shots/manual/picker.png', 'docs/images/picker.jpg', 430),
+    ('shots/manual/desktop.png', 'docs/images/desktop.jpg', 960),
+]
+for src, dst, width in jobs:
+    im = Image.open(src).convert('RGB')
+    h = round(im.height * width / im.width)
+    im = im.resize((width, h), Image.LANCZOS)
+    im.save(dst, 'JPEG', quality=82, optimize=True)
+    print(dst, im.size, os.path.getsize(dst))
