@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#f4f7fe" />
+<meta name="description" content="考研作文批改器：选择 AI 模型，粘贴或上传作文，获得修改建议、润色范文与评分。数据仅保存在本机。" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="作文批改" />
+<title>作文批改器 · 考研</title>
+<link rel="manifest" href="./manifest.webmanifest" />
+<link rel="icon" href="./assets/icons/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="./assets/icons/icon-192.png" />
+<link rel="stylesheet" href="./assets/css/app.css" />
+</head>
+<body>
+  <div id="app" class="app" data-route="home">
+    <main id="view" class="view"></main>
+    <nav id="tabbar" class="tabbar" aria-label="主导航"></nav>
+  </div>
+  <div id="layer" class="layer"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="boot-error" class="boot-error" hidden></div>
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>
