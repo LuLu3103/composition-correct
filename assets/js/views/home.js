@@ -8,7 +8,7 @@ import { getSettings, getActiveProvider, updateProvider, getDraft, saveDraft, ge
 function thumbsHtml(list, group) {
   if (!list.length) return '';
   return '<div class="thumbs">' + list.map((src, index) =>
-    '<div class="thumb"><img src="' + src + '" alt="图片 ' + (index + 1) + '" />' +
+    '<div class="thumb"><img src="' + escapeHtml(src) + '" alt="图片 ' + (index + 1) + '" />' +
     '<button class="thumb-x" type="button" data-remove="' + index + '" data-group="' + group + '" aria-label="删除图片">' + icon('close') + '</button></div>'
   ).join('') + '</div>';
 }

@@ -204,7 +204,7 @@ function resultHtml(app, data) {
   const questionImages = Array.isArray(data.questionImages) ? data.questionImages : [];
   const essayImages = Array.isArray(data.images) ? data.images : [];
   const heroThumbs = questionImages.length
-    ? '<div class="hero-thumbs">' + questionImages.map((src) => '<img src="' + src + '" alt="题目图片" />').join('') + '</div>'
+    ? '<div class="hero-thumbs">' + questionImages.map((src) => '<img src="' + escapeHtml(src) + '" alt="题目图片" />').join('') + '</div>'
     : '';
 
   const hero = '<div class="result-hero">' +
@@ -242,7 +242,7 @@ function resultHtml(app, data) {
   });
 
   const essayThumbs = essayImages.length
-    ? '<div class="essay-thumbs">' + essayImages.map((src) => '<img src="' + src + '" alt="作文图片" />').join('') + '</div>'
+    ? '<div class="essay-thumbs">' + essayImages.map((src) => '<img src="' + escapeHtml(src) + '" alt="作文图片" />').join('') + '</div>'
     : '';
   const original = (data.essay || essayImages.length)
     ? foldCard({
