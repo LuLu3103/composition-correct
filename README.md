@@ -85,6 +85,15 @@ python -m http.server 8123
 
 推送到 GitHub 仓库的 `main` 分支，在仓库 **Settings → Pages** 选择 `Deploy from a branch → main / (root)` 即可，`.nojekyll` 已就位。也可直接托管到任意静态空间（Vercel、Netlify、对象存储等）。
 
+如果本机 `git push` 连不上 github.com，可以改用 GitHub API 发布（需要已登录的 `gh`）：
+
+```bash
+python tools/deploy.py --dry-run   # 先看会提交哪些文件
+python tools/deploy.py             # 创建提交并触发 Pages 构建
+```
+
+发布新版本时记得同时修改 `store.js` 里的 `APP_VERSION` 和 `sw.js` 里的 `VERSION`，避免浏览器继续使用旧的离线缓存。
+
 ## 打包为 Android App（V1.0 之后的计划）
 
 1. **PWA → TWA（首选）**：仓库已带 `manifest.webmanifest` 与 Service Worker，可直接用 [PWABuilder](https://www.pwabuilder.com/) 生成 Trusted Web Activity 的 `.apk` / `.aab`。应用内实际加载线上页面，更新网站即更新 App，缺点是需要联网。
