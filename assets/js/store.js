@@ -11,7 +11,7 @@ const KEY = {
   result: 'essayGrader.result.v1'
 };
 
-export const APP_VERSION = '4.0';
+export const APP_VERSION = '5.0';
 export const SETTINGS_VERSION = 3;
 
 /* 内置服务商：只有默认地址，Key 与模型由用户各自保存 */

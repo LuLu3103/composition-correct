@@ -218,39 +218,66 @@ export function downloadFile(filename, content, type = 'application/json') {
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
-
 /* ---------------- 图片 ---------------- */
+const IMAGE_EXT = /\.(jpe?g|png|webp|gif|bmp|heic|heif|avif)$/i;
+
+export function isImageFile(file) {
+  if (!file) return false;
+  if (/^image\//i.test(file.type || '')) return true;
+  if (IMAGE_EXT.test(file.name || '')) return true;
+  /* 某些相册/文件管理器给出的 type 是空的或 octet-stream，交给解码器再判断 */
+  return !file.type || file.type === 'application/octet-stream';
+}
+
 export function compressImage(file, opts = {}) {
   const maxSide = opts.maxSide || 1400;
   const quality = opts.quality || 0.82;
   return new Promise((resolve, reject) => {
-    if (!file || !/^image\//.test(file.type)) { reject(new Error('不是图片文件')); return; }
-    const reader = new FileReader();
-    reader.onerror = () => reject(new Error('读取图片失败'));
-    reader.onload = () => {
-      const img = new Image();
-      img.onerror = () => reject(new Error('图片解析失败'));
-      img.onload = () => {
-        let width = img.width;
-        let height = img.height;
+    if (!file || !(file instanceof Blob)) { reject(new Error('读取图片失败')); return; }
+    const looksImage = /^image\//i.test(file.type || '') || IMAGE_EXT.test(file.name || '')
+      || !file.type || file.type === 'application/octet-stream';
+    if (!looksImage) { reject(new Error('这不是图片文件')); return; }
+    if (file.size > 30 * 1024 * 1024) { reject(new Error('图片超过 30MB，请压缩后再上传')); return; }
+
+    const fail = () => reject(new Error('这张图片无法解析（可能是 HEIC 格式）。可以改用「拍照」，或先把图片转成 JPG 再上传。'));
+
+    const paint = (source, width, height) => {
+      try {
         const scale = Math.min(1, maxSide / Math.max(width, height));
-        width = Math.round(width * scale);
-        height = Math.round(height * scale);
+        const outW = Math.max(1, Math.round(width * scale));
+        const outH = Math.max(1, Math.round(height * scale));
         const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = outW;
+        canvas.height = outH;
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, width, height);
-        ctx.drawImage(img, 0, 0, width, height);
+        ctx.fillRect(0, 0, outW, outH);
+        ctx.drawImage(source, 0, 0, outW, outH);
         resolve(canvas.toDataURL('image/jpeg', quality));
-      };
+      } catch (e) {
+        fail();
+      }
+    };
+
+    const tryBitmap = () => {
+      if (!window.createImageBitmap) { fail(); return; }
+      createImageBitmap(file).then((bmp) => {
+        paint(bmp, bmp.width, bmp.height);
+        if (bmp.close) setTimeout(() => bmp.close(), 50);
+      }).catch(fail);
+    };
+
+    const reader = new FileReader();
+    reader.onerror = () => tryBitmap();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => paint(img, img.naturalWidth || img.width, img.naturalHeight || img.height);
+      img.onerror = () => tryBitmap();
       img.src = reader.result;
     };
     reader.readAsDataURL(file);
   });
 }
-
 /* ---------------- 杂项 ---------------- */
 export const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 

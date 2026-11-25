@@ -1,18 +1,27 @@
 /* 首页：模型选择 / 题目 / 作文 / 提交批改 */
 import {
-  $, $$, icon, logoSvg, escapeHtml, fmtDateTime, toast,
+  $, icon, logoSvg, escapeHtml, fmtDateTime, toast,
   autoGrow, countWords, compressImage, debounce
 } from '../utils.js';
 import { getSettings, getActiveProvider, updateProvider, getDraft, saveDraft, getResult, currentModelInfo } from '../store.js';
 
+function thumbsHtml(list, group) {
+  if (!list.length) return '';
+  return '<div class="thumbs">' + list.map((src, index) =>
+    '<div class="thumb"><img src="' + src + '" alt="图片 ' + (index + 1) + '" />' +
+    '<button class="thumb-x" type="button" data-remove="' + index + '" data-group="' + group + '" aria-label="删除图片">' + icon('close') + '</button></div>'
+  ).join('') + '</div>';
+}
+
 export function render() {
   const settings = getSettings();
+  const provider = getActiveProvider(settings);
   const draft = getDraft();
   const result = getResult();
-  const provider = getActiveProvider(settings);
   const model = currentModelInfo();
   const models = Array.isArray(provider.models) ? provider.models : [];
-  const images = Array.isArray(draft.images) ? draft.images : [];
+  const questionImages = Array.isArray(draft.questionImages) ? draft.questionImages : [];
+  const essayImages = Array.isArray(draft.images) ? draft.images : [];
   const viewing = !!(result && result.historyId);
 
   const banner = viewing
@@ -27,14 +36,10 @@ export function render() {
         escapeHtml(m.name) + (m.vision ? ' · 视觉' : '') + '</option>'
       ).join('')
     : '<option value="">未添加模型</option>';
+
   const visionHint = !models.length
     ? '还没有模型，请到「设置」里获取可用模型'
     : (model.vision ? '当前模型支持图片识别' : '当前模型仅支持文本，图片请选带「视觉」的模型');
-
-  const thumbs = images.map((src, index) =>
-    '<div class="thumb"><img src="' + src + '" alt="作文图片 ' + (index + 1) + '" />' +
-    '<button class="thumb-x" type="button" data-remove="' + index + '" aria-label="删除图片">' + icon('close') + '</button></div>'
-  ).join('');
 
   return '' +
     '<header class="hero">' +
@@ -64,9 +69,12 @@ export function render() {
     '<section class="card">' +
       '<div class="card-head">' +
         '<div class="card-icon">' + icon('book') + '</div>' +
-        '<div><h2 class="card-title">题目</h2><p class="card-desc">作文题目或写作要求（可选）</p></div>' +
+        '<div><h2 class="card-title">题目</h2><p class="card-desc">文字或题目截图都可以（可选）</p></div>' +
       '</div>' +
       '<textarea class="textarea" id="question" rows="2" placeholder="例如：Write an essay on the importance of ..."></textarea>' +
+      thumbsHtml(questionImages, 'question') +
+      '<button class="uploader" type="button" data-act="add-image-question">' + icon('camera') + ' 上传题目图片</button>' +
+      '<input type="file" id="file-input-question" accept="image/*" multiple hidden />' +
     '</section>' +
 
     '<section class="card">' +
@@ -76,7 +84,7 @@ export function render() {
         '<span class="field-hint" id="essay-count">0 词</span>' +
       '</div>' +
       '<textarea class="textarea" id="essay" rows="6" placeholder="在此粘贴作文内容，或拍照后交由 AI 识别…"></textarea>' +
-      (thumbs ? '<div class="thumbs" id="thumbs">' + thumbs + '</div>' : '') +
+      thumbsHtml(essayImages, 'essay') +
       '<button class="uploader" type="button" data-act="add-image">' + icon('camera') + ' 拍照 / 上传作文图片</button>' +
       '<input type="file" id="file-input" accept="image/*" multiple hidden />' +
     '</section>' +
@@ -98,10 +106,7 @@ export function mount(root, app) {
   autoGrow(questionEl, 220);
   autoGrow(essayEl, 420);
 
-  const updateCount = () => {
-    const n = countWords(essayEl.value);
-    countEl.textContent = n + ' 词';
-  };
+  const updateCount = () => { countEl.textContent = countWords(essayEl.value) + ' 词'; };
   updateCount();
 
   const persist = debounce(() => saveDraft({ question: questionEl.value, essay: essayEl.value }), 350);
@@ -124,15 +129,36 @@ export function mount(root, app) {
     }
   });
 
+  const handleFiles = async (files, group) => {
+    const key = group === 'question' ? 'questionImages' : 'images';
+    const now = getDraft();
+    const list = (now[key] || []).slice();
+    const before = list.length;
+    for (const file of files) {
+      if (list.length >= 3) { toast('最多 3 张图片'); break; }
+      try {
+        const data = await compressImage(file, { maxSide: group === 'question' ? 1200 : 1400 });
+        list.push(data);
+      } catch (err) {
+        toast(err && err.message ? err.message : '图片处理失败', 'error');
+      }
+    }
+    if (list.length === before) return;
+    saveDraft({ [key]: list });
+    app.refresh();
+  };
+
   root.addEventListener('click', (event) => {
     const target = event.target.closest('[data-act], [data-remove]');
     if (!target) return;
     if (target.hasAttribute('data-remove')) {
       const index = Number(target.getAttribute('data-remove'));
+      const group = target.getAttribute('data-group') === 'question' ? 'question' : 'essay';
+      const key = group === 'question' ? 'questionImages' : 'images';
       const now = getDraft();
-      const images = (now.images || []).slice();
-      images.splice(index, 1);
-      saveDraft({ images });
+      const list = (now[key] || []).slice();
+      list.splice(index, 1);
+      saveDraft({ [key]: list });
       app.refresh();
       return;
     }
@@ -141,6 +167,7 @@ export function mount(root, app) {
     else if (act === 'clear-view') app.clearViewing();
     else if (act === 'submit') app.startCorrection();
     else if (act === 'add-image') $('#file-input', root).click();
+    else if (act === 'add-image-question') $('#file-input-question', root).click();
   });
 
   essayEl.addEventListener('keydown', (event) => {
@@ -150,23 +177,17 @@ export function mount(root, app) {
     }
   });
 
-  const input = $('#file-input', root);
-  input.addEventListener('change', async () => {
-    const files = Array.from(input.files || []);
-    input.value = '';
-    if (!files.length) return;
-    const now = getDraft();
-    const images = (now.images || []).slice();
-    for (const file of files) {
-      if (images.length >= 3) { toast('最多上传 3 张图片'); break; }
-      try {
-        const data = await compressImage(file);
-        images.push(data);
-      } catch (err) {
-        toast(err && err.message ? err.message : '图片处理失败', 'error');
-      }
-    }
-    saveDraft({ images });
-    app.refresh();
+  const essayInput = $('#file-input', root);
+  essayInput.addEventListener('change', async () => {
+    const files = Array.from(essayInput.files || []);
+    essayInput.value = '';
+    if (files.length) await handleFiles(files, 'essay');
+  });
+
+  const questionInput = $('#file-input-question', root);
+  questionInput.addEventListener('change', async () => {
+    const files = Array.from(questionInput.files || []);
+    questionInput.value = '';
+    if (files.length) await handleFiles(files, 'question');
   });
 }

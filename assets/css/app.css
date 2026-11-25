@@ -661,6 +661,13 @@ details summary::-webkit-details-marker { display: none; }
 .result-toolbar .chip .ico { width: 13px; height: 13px; }
 .toolbar-hint { font-size: 11px; color: var(--muted); }
 
+
+/* ---------- V5：题目 / 作文图片 ---------- */
+.hero-thumbs { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.hero-thumbs img { width: 56px; height: 56px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.55); }
+.essay-thumbs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.essay-thumbs img { width: 74px; height: 74px; object-fit: cover; border-radius: 14px; border: 1px solid var(--line); }
+
 /* ---------- 其它 ---------- */
 .spin { animation: spin 0.9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }

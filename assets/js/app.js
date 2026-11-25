@@ -24,7 +24,11 @@ const app = {
     if (location.hash === '#/' + next) render();
     else location.hash = '#/' + next;
   },
-  refresh() { render(); },
+  refresh() {
+    const y = window.scrollY;
+    render();
+    requestAnimationFrame(() => window.scrollTo(0, y));
+  },
   getJob() { return job; },
   getRoute() { return routeFromHash(); },
   startCorrection,
@@ -43,7 +47,7 @@ function routeFromHash() {
 }
 
 function clearDraftInputs() {
-  saveDraft({ question: '', essay: '', images: [] });
+  saveDraft({ question: '', essay: '', images: [], questionImages: [] });
 }
 
 function buildTabbar() {
@@ -98,7 +102,9 @@ async function startCorrection() {
   const model = currentModelInfo();
   const essay = (draft.essay || '').trim();
   const images = Array.isArray(draft.images) ? draft.images : [];
+  const questionImages = Array.isArray(draft.questionImages) ? draft.questionImages : [];
   const useImages = model.vision ? images : [];
+  const useQuestionImages = model.vision ? questionImages : [];
 
   if (!provider || !provider.model) {
     toast('请先在设置里获取并选择一个模型');
@@ -114,15 +120,16 @@ async function startCorrection() {
     toast('请先输入作文，或上传作文图片');
     return;
   }
-  if (images.length && !model.vision) {
-    toast('当前模型不支持图片，本次只提交文本');
+  if ((images.length || questionImages.length) && !model.vision) {
+    toast('当前模型不支持图片，本次只提交文字');
   }
 
   const messages = buildMessages({
     prompt: settings.prompt,
     question: draft.question,
     essay: draft.essay,
-    images: useImages
+    images: useImages,
+    questionImages: useQuestionImages
   });
 
   const token = {
@@ -132,7 +139,8 @@ async function startCorrection() {
     model: provider.model,
     question: draft.question || '',
     essay: draft.essay || '',
-    images: images
+    images: images,
+    questionImages: questionImages
   };
   job = token;
   app.go('review');
@@ -161,6 +169,7 @@ async function startCorrection() {
         question: token.question,
         essay: token.essay,
         images: token.images,
+        questionImages: token.questionImages,
         score: parsed ? parsed.score : null,
         result: parsed,
         raw: content
@@ -178,13 +187,15 @@ async function startCorrection() {
       model: provider.model,
       question: token.question,
       essay: token.essay,
-      images: token.images
+      images: token.images,
+      questionImages: token.questionImages
     };
     saveResult({
       historyId: record ? record.id : '',
       question: token.question,
       essay: token.essay,
       images: token.images,
+      questionImages: token.questionImages,
       model: provider.model,
       createdAt: token.startedAt,
       parsed: parsed,
@@ -212,7 +223,8 @@ function openHistory(item) {
   saveDraft({
     question: item.question || '',
     essay: item.essay || '',
-    images: Array.isArray(item.images) ? item.images : []
+    images: Array.isArray(item.images) ? item.images : [],
+    questionImages: Array.isArray(item.questionImages) ? item.questionImages : []
   });
   const parsed = item.result || parseResult(item.raw || '');
   saveResult({
@@ -220,6 +232,7 @@ function openHistory(item) {
     question: item.question || '',
     essay: item.essay || '',
     images: Array.isArray(item.images) ? item.images : [],
+    questionImages: Array.isArray(item.questionImages) ? item.questionImages : [],
     model: item.model || '',
     createdAt: item.createdAt || Date.now(),
     parsed: parsed,

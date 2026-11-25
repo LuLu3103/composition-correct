@@ -26,28 +26,41 @@ function friendly(status, detail) {
   return '请求失败（' + status + '）' + (detail ? '：' + String(detail).slice(0, 120) : '');
 }
 
-function buildUserContent(question, essay, images) {
-  const hasImages = Array.isArray(images) && images.length > 0;
-  const blocks = ['请批改下面这篇考研英语作文。'];
-  blocks.push('【题目】\n' + (question ? question.trim() : '（学生未提供题目，请根据作文内容推断主题，并在评语中说明）'));
-  if (essay && essay.trim()) blocks.push('【学生作文（文本）】\n' + essay.trim());
-  if (!essay.trim() && hasImages) blocks.push('【学生作文（图片）】\n作文内容在下面的图片中，请先逐字识别图片里的文字，再按格式批改。');
-  return { text: blocks.join('\n\n'), hasImages };
-}
-
 export function buildMessages(options) {
   const prompt = String(options.prompt || '');
-  const images = Array.isArray(options.images) ? options.images : [];
-  const { text, hasImages } = buildUserContent(options.question, options.essay || '', images);
+  const essay = String(options.essay || '').trim();
+  const essayImages = Array.isArray(options.images) ? options.images : [];
+  const questionImages = Array.isArray(options.questionImages) ? options.questionImages : [];
+  const hasImages = essayImages.length + questionImages.length > 0;
+
+  const parts = [{ type: 'text', text: '请批改下面这篇考研英语作文。' }];
+
+  if (questionImages.length) {
+    parts.push({ type: 'text', text: '【题目图片】下面 ' + questionImages.length + ' 张图片是作文题目或要求，请先准确识别其中的文字。' });
+    questionImages.forEach((url) => parts.push({ type: 'image_url', image_url: { url: url } }));
+    const questionText = (options.question || '').trim();
+    if (questionText) parts.push({ type: 'text', text: '【题目文字补充】\n' + questionText });
+  } else {
+    const questionText = (options.question || '').trim();
+    parts.push({ type: 'text', text: '【题目】\n' + (questionText || '（学生未提供题目，请根据作文内容推断主题，并在评语中说明）') });
+  }
+
+  if (essay) parts.push({ type: 'text', text: '【学生作文（文本）】\n' + essay });
+
+  if (essayImages.length) {
+    parts.push({ type: 'text', text: '【学生作文（图片）】作文正文在下面 ' + essayImages.length + ' 张图片里，请先逐字识别文字再批改。' });
+    essayImages.forEach((url) => parts.push({ type: 'image_url', image_url: { url: url } }));
+  } else if (!essay) {
+    parts.push({ type: 'text', text: '（学生没有提供作文文字或图片）' });
+  }
+
   const system = hasImages
-    ? prompt + '\n\n补充要求：用户提供了作文图片，请先准确识别图片中的手写或印刷文字，再进行批改。'
+    ? prompt + '\n\n补充要求：用户提供了图片（题目图片和/或作文图片），请先准确识别图片中的手写或印刷文字，再进行批改；如果题目图片与文字不一致，以图片中的要求为准。'
     : prompt;
-  const user = hasImages
-    ? [{ type: 'text', text: text }].concat(images.map((url) => ({ type: 'image_url', image_url: { url: url } })))
-    : text;
+
   return [
     { role: 'system', content: system },
-    { role: 'user', content: user }
+    { role: 'user', content: hasImages ? parts : parts.map((p) => p.text).join('\n\n') }
   ];
 }
 

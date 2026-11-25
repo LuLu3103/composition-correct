@@ -200,10 +200,17 @@ function resultHtml(app, data) {
     data.createdAt ? '<span class="chip">' + icon('clock') + escapeHtml(fmtDateTime(data.createdAt)) + '</span>' : ''
   ].join('');
 
+  const questionImages = Array.isArray(data.questionImages) ? data.questionImages : [];
+  const essayImages = Array.isArray(data.images) ? data.images : [];
+  const heroThumbs = questionImages.length
+    ? '<div class="hero-thumbs">' + questionImages.map((src) => '<img src="' + src + '" alt="题目图片" />').join('') + '</div>'
+    : '';
+
   const hero = '<div class="result-hero">' +
     '<div class="result-eyebrow">批改报告</div>' +
     '<h2 class="result-title">' + escapeHtml(title) + '</h2>' +
     '<div class="result-meta">' + chips + '</div>' +
+    heroThumbs +
     (score && score.total !== null ? '<div class="result-score"><b>' + fmtNum(score.total) + '</b><span>/ ' + fmtNum(score.max) + '</span></div>' : '') +
     '</div>';
 
@@ -233,13 +240,16 @@ function resultHtml(app, data) {
     open: true
   });
 
-  const original = data.essay
+  const essayThumbs = essayImages.length
+    ? '<div class="essay-thumbs">' + essayImages.map((src) => '<img src="' + src + '" alt="作文图片" />').join('') + '</div>'
+    : '';
+  const original = (data.essay || essayImages.length)
     ? foldCard({
         id: 'original',
         icon: 'copy',
         title: '原始作文',
         preview: '提交时的内容',
-        body: '<div class="essay-paper"><div class="prose">' + mdToHtml(data.essay) + '</div></div>'
+        body: essayThumbs + (data.essay ? '<div class="essay-paper"><div class="prose">' + mdToHtml(data.essay) + '</div></div>' : '')
       })
     : '';
 
@@ -270,13 +280,13 @@ export function render(app) {
   if (job && job.status === 'done') {
     return resultHtml(app, {
       parsed: job.result, question: job.question, essay: job.essay, model: job.model,
-      createdAt: job.startedAt, images: job.images, historyId: job.recordId
+      createdAt: job.startedAt, images: job.images, questionImages: job.questionImages, historyId: job.recordId
     });
   }
   if (saved && saved.parsed) {
     return resultHtml(app, {
       parsed: saved.parsed, question: saved.question, essay: saved.essay, model: saved.model,
-      createdAt: saved.createdAt, images: saved.images, historyId: saved.historyId
+      createdAt: saved.createdAt, images: saved.images, questionImages: saved.questionImages, historyId: saved.historyId
     });
   }
   return emptyHtml();
