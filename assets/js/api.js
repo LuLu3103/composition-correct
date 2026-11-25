@@ -9,6 +9,12 @@ export class ApiError extends Error {
   }
 }
 
+let lastFinishReason = '';
+
+export function getLastFinishReason() {
+  return lastFinishReason;
+}
+
 export function endpointOf(baseUrl) {
   const base = String(baseUrl || '').trim().replace(/\/+$/, '');
   if (!base) throw new ApiError('请先在设置里填写接口地址');
@@ -91,6 +97,7 @@ function pickContent(data) {
 }
 
 export async function chatCompletion(options) {
+  lastFinishReason = '';
   const url = endpointOf(options.baseUrl);
   const apiKey = String(options.apiKey || '').trim();
   if (!apiKey) throw new ApiError('还没有填写 API Key，请先到「设置」里配置');
@@ -134,6 +141,7 @@ export async function chatCompletion(options) {
     } catch (e) {
       throw new ApiError('无法解析服务端返回内容', { detail: String(e && e.message ? e.message : e) });
     }
+    lastFinishReason = (data && data.choices && data.choices[0] && data.choices[0].finish_reason) || '';
     const content = pickContent(data);
     if (!content) throw new ApiError('模型返回了空内容', { detail: JSON.stringify(data).slice(0, 300) });
     if (options.onDelta) options.onDelta(content);
@@ -154,7 +162,9 @@ export async function chatCompletion(options) {
       if (!data || data === '[DONE]') continue;
       try {
         const json = JSON.parse(data);
-        const delta = json.choices && json.choices[0] && json.choices[0].delta;
+        const choice = json.choices && json.choices[0];
+        if (choice && choice.finish_reason) lastFinishReason = choice.finish_reason;
+        const delta = choice && choice.delta;
         const piece = delta && (delta.content || '');
         if (piece) { output += piece; options.onDelta(piece); }
       } catch (e) { /* 忽略不完整片段 */ }

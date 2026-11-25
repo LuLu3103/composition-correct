@@ -101,46 +101,73 @@ function dimsOf(text) {
   return dims;
 }
 
-export function parseScoreV2(body, fullText) {
-  if (!body) return null;
-  const levelM = body.match(/(?:预估)?档次\s*[:：]\s*([^\n]+)/);
-  const lineM = body.match(/(?:预估)?分数\s*[:：]\s*([^\n]+)/);
+/* 去掉 Markdown 强调、表格竖线等，避免「**预估分数**：16 分」「| 预估分数 | 16/20 |」解析不到 */
+function normalizeScoreText(text) {
+  return String(text || '')
+    .replace(/\`\`\`/g, '')
+    .replace(/\*\*/g, '')
+    .replace(/[*_#>]/g, '')
+    .replace(/\|/g, ' ')
+    .replace(/\r\n?/g, '\n');
+}
+
+function extractScore(text) {
+  if (!text) return null;
+  const levelM = text.match(/(?:预估)?档次\s*[:：]?\s*([^\n]+)/);
+  const lineM = text.match(/(?:预估)?分数\s*[:：]?\s*([^\n]+)/);
   const scoreLine = lineM ? lineM[1].trim() : '';
 
   let total = null;
   let max = null;
   let range = '';
+
   const rangeM = scoreLine.match(/(\d+(?:\.\d+)?)\s*[-–—~～至]\s*(\d+(?:\.\d+)?)/);
   if (rangeM) range = rangeM[1] + '–' + rangeM[2];
   const moreM = scoreLine.match(/更可能(?:落在|是|为)?\s*[:：]?\s*(\d+(?:\.\d+)?)/)
-    || body.match(/更可能(?:落在|是|为)?\s*[:：]?\s*(\d+(?:\.\d+)?)/);
-  const fracM = scoreLine.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+)/);
-  const singleM = scoreLine.match(/(\d+(?:\.\d+)?)\s*分/);
+    || text.match(/更可能(?:落在|是|为)?\s*[:：]?\s*(\d+(?:\.\d+)?)/);
+  const fracM = scoreLine.match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+)/)
+    || text.match(/(?:总分|分数|得分)\s*[:：]?\s*(\d+(?:\.\d+)?)\s*\/\s*(\d+)/);
+  const singleM = scoreLine.match(/(\d+(?:\.\d+)?)\s*分/)
+    || scoreLine.match(/^(\d+(?:\.\d+)?)$/)
+    || text.match(/(?:总分|分数|得分)\s*[:：]?\s*(\d+(?:\.\d+)?)\s*分/);
 
   if (fracM) { total = Number(fracM[1]); max = Number(fracM[2]); }
   else if (moreM) total = Number(moreM[1]);
   else if (rangeM) total = (Number(rangeM[1]) + Number(rangeM[2])) / 2;
   else if (singleM) total = Number(singleM[1]);
 
-  const dims = dimsOf(body);
-  if (total === null && !dims.length) return null;
+  if (total === null && !levelM) return null;
+  return { total: total, max: max, range: range, level: levelM ? levelM[1].trim() : '' };
+}
 
+export function parseScoreV2(body, fullText) {
+  const clean = normalizeScoreText(body || '');
+  const all = normalizeScoreText(fullText || body || '');
+  const found = extractScore(clean) || extractScore(all);
+  if (!found) return null;
+
+  const dims = dimsOf(clean);
+  let total = found.total;
+  let max = found.max;
+
+  if (total === null && dims.length) total = dims.reduce((s, d) => s + d.value, 0);
   if (max === null) {
-    const fullM = body.match(/满分\s*[:：]?\s*(\d+)/);
+    const fullM = all.match(/满分\s*[:：]?\s*(\d+)/);
     if (fullM) max = Number(fullM[1]);
-    else if (/小作文/.test(fullText) && !/大作文/.test(fullText)) max = 10;
+    else if (/小作文/.test(all) && !/大作文/.test(all)) max = 10;
     else max = 20;
   }
-  if (total !== null && max && total > max) total = max;
+  if (total === null) return null;
+  if (max && total > max) total = max;
 
-  const strengthM = body.match(/得分优势\s*[:：]\s*([\s\S]*?)(?=主要扣分点|$)/);
-  const weaknessM = body.match(/主要扣分点\s*[:：]\s*([\s\S]*)$/);
+  const strengthM = clean.match(/得分优势\s*[:：]?\s*([\s\S]*?)(?=主要扣分点|$)/);
+  const weaknessM = clean.match(/主要扣分点\s*[:：]?\s*([\s\S]*)$/);
 
   return {
     total: total,
     max: max,
-    range: range,
-    level: levelM ? levelM[1].trim() : '',
+    range: found.range,
+    level: found.level,
     comment: '',
     dims: dims,
     strengths: strengthM ? strengthM[1].trim() : '',
@@ -148,24 +175,13 @@ export function parseScoreV2(body, fullText) {
   };
 }
 
-function parseScoreV1(text) {
+function parseScoreV1(rawText) {
+  const text = normalizeScoreText(rawText);
   if (!text) return null;
   const dims = dimsOf(text);
-  let total = null;
-  let max = null;
-  const totalMatch = text.match(/(?:总分|得分|总评|分数)\s*[:：]?\s*(\d+(?:\.\d+)?)\s*(?:\/|／)\s*(\d+)?/);
-  if (totalMatch) {
-    total = Number(totalMatch[1]);
-    if (totalMatch[2]) max = Number(totalMatch[2]);
-  }
-  if (total === null) {
-    const alt = text.match(/(\d+(?:\.\d+)?)\s*(?:\/|／)\s*(\d+)\s*分/);
-    if (alt) { total = Number(alt[1]); max = Number(alt[2]); }
-  }
-  if (total === null) {
-    const alt2 = text.match(/(?:总分|得分)\s*[:：]?\s*(\d+(?:\.\d+)?)\s*分/);
-    if (alt2) total = Number(alt2[1]);
-  }
+  const found = extractScore(text) || {};
+  let total = found.total === undefined ? null : found.total;
+  let max = found.max === undefined ? null : found.max;
   if (total === null && dims.length) total = dims.reduce((sum, d) => sum + d.value, 0);
   if (max === null) {
     const mm = text.match(/(?:满分|总分)\s*[:：]?\s*(\d{1,3})/);
@@ -189,7 +205,7 @@ function parseScoreV1(text) {
   return {
     total: total,
     max: max,
-    range: '',
+    range: (found && found.range) || '',
     level: level,
     comment: commentMatch ? commentMatch[1].trim() : '',
     dims: dims,
@@ -349,7 +365,7 @@ export function parseResult(raw) {
       format: 'text',
       blocks: [{ id: 'raw', title: '批改内容', body: text, kind: 'text' }],
       revised: '',
-      score: null,
+      score: parseScoreV1(text),
       suggestions: text,
       raw: text
     };
@@ -363,7 +379,7 @@ export function parseResult(raw) {
     format: 'v1',
     blocks: blocks,
     revised: parts.revised || '',
-    score: parseScoreV1(parts.score),
+    score: parseScoreV1(parts.score || text),
     suggestions: parts.suggestions || '',
     raw: text
   };

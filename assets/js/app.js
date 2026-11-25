@@ -4,7 +4,7 @@ import {
   getSettings, getActiveProvider, currentModelInfo, getDraft, saveDraft, addHistory, saveResult,
   getResult, clearResult
 } from './store.js';
-import { buildMessages, chatCompletion } from './api.js';
+import { buildMessages, chatCompletion, getLastFinishReason } from './api.js';
 import { parseResult } from './parse.js';
 import * as homeView from './views/home.js';
 import * as reviewView from './views/review.js';
@@ -160,6 +160,8 @@ async function startCorrection() {
     });
     if (job !== token) return;
 
+    const truncated = getLastFinishReason() === 'length';
+    if (truncated) toast('模型输出达到长度上限，结尾可能被截断', 'error');
     const parsed = parseResult(content);
     let record = null;
     try {
@@ -172,7 +174,8 @@ async function startCorrection() {
         questionImages: token.questionImages,
         score: parsed ? parsed.score : null,
         result: parsed,
-        raw: content
+        raw: content,
+        truncated: truncated
       });
     } catch (err) {
       toast(err && err.message ? err.message : '历史记录保存失败', 'error');
@@ -188,7 +191,8 @@ async function startCorrection() {
       question: token.question,
       essay: token.essay,
       images: token.images,
-      questionImages: token.questionImages
+      questionImages: token.questionImages,
+      truncated: truncated
     };
     saveResult({
       historyId: record ? record.id : '',
@@ -199,7 +203,8 @@ async function startCorrection() {
       model: provider.model,
       createdAt: token.startedAt,
       parsed: parsed,
-      raw: content
+      raw: content,
+      truncated: truncated
     });
     render();
     toast('批改完成', 'success');
@@ -236,7 +241,8 @@ function openHistory(item) {
     model: item.model || '',
     createdAt: item.createdAt || Date.now(),
     parsed: parsed,
-    raw: item.raw || ''
+    raw: item.raw || '',
+    truncated: !!item.truncated
   });
   app.go('review');
 }

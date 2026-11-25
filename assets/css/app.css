@@ -668,6 +668,27 @@ details summary::-webkit-details-marker { display: none; }
 .essay-thumbs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
 .essay-thumbs img { width: 74px; height: 74px; object-fit: cover; border-radius: 14px; border: 1px solid var(--line); }
 
+
+/* ---------- V6：可折叠的服务商卡片 ---------- */
+.setting-fold > summary { list-style: none; }
+.setting-fold > summary::-webkit-details-marker { display: none; }
+.setting-fold > summary.setting-row { border-bottom: 0; }
+.setting-fold[open] > summary.setting-row { border-bottom: 1px solid var(--line); }
+.setting-fold > summary::after { content: none !important; }
+.setting-fold > summary .setting-chevron .ico { transition: transform 0.25s ease; }
+.setting-fold[open] > summary .setting-chevron .ico { transform: rotate(90deg); }
+.setting-fold-body { display: block; }
+
+/* ---------- V6：可折叠的服务商卡片 ---------- */
+.setting-fold > summary { list-style: none; }
+.setting-fold > summary::-webkit-details-marker { display: none; }
+.setting-fold > summary.setting-row { border-bottom: 0; }
+.setting-fold[open] > summary.setting-row { border-bottom: 1px solid var(--line); }
+.setting-fold > summary::after { content: none !important; }
+.setting-fold > summary .setting-chevron .ico { transition: transform 0.25s ease; }
+.setting-fold[open] > summary .setting-chevron .ico { transform: rotate(90deg); }
+.setting-fold-body { display: block; }
+
 /* ---------- 其它 ---------- */
 .spin { animation: spin 0.9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }

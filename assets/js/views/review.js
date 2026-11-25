@@ -194,6 +194,7 @@ function normalize(parsed) {
 function resultHtml(app, data) {
   const parsed = normalize(data.parsed);
   const score = parsed.score;
+  const truncated = !!data.truncated;
   const title = (data.question || '').trim() || '未命名题目';
   const chips = [
     data.model ? '<span class="chip">' + icon('layers') + escapeHtml(data.model) + '</span>' : '',
@@ -258,9 +259,14 @@ function resultHtml(app, data) {
     '<span class="toolbar-hint">点击标题展开或收起</span>' +
     '</div>';
 
+  const truncatedNote = truncated
+    ? '<section class="card"><p class="prose">' + icon('alert') + ' 模型输出达到长度上限，回答可能被截断（评分一般在最后）。可以换用输出更长的模型，或减少图片数量后重试。</p></section>'
+    : '';
+
   return head('批改结果', 'AI 给出的建议、范文与评分', data.historyId ? '<span class="chip chip-muted">历史</span>' : '') +
     hero +
     toolbar +
+    truncatedNote +
     (suggestionBlocks ? chapter('修改建议') + notParsed + suggestionBlocks : notParsed) +
     (revisedCard ? chapter('修改作文') + revisedCard : '') +
     chapter('作文评分') + scoreCard +
@@ -280,13 +286,13 @@ export function render(app) {
   if (job && job.status === 'done') {
     return resultHtml(app, {
       parsed: job.result, question: job.question, essay: job.essay, model: job.model,
-      createdAt: job.startedAt, images: job.images, questionImages: job.questionImages, historyId: job.recordId
+      createdAt: job.startedAt, images: job.images, questionImages: job.questionImages, truncated: job.truncated, historyId: job.recordId
     });
   }
   if (saved && saved.parsed) {
     return resultHtml(app, {
       parsed: saved.parsed, question: saved.question, essay: saved.essay, model: saved.model,
-      createdAt: saved.createdAt, images: saved.images, questionImages: saved.questionImages, historyId: saved.historyId
+      createdAt: saved.createdAt, images: saved.images, questionImages: saved.questionImages, truncated: saved.truncated, historyId: saved.historyId
     });
   }
   return emptyHtml();

@@ -9,6 +9,9 @@ import {
 } from '../store.js';
 import { testConnection, listModels } from '../api.js';
 
+/* 服务商折叠状态：null = 按「是否已配置」决定 */
+let settingsFoldOpen = null;
+
 function groupTitle(text) {
   return '<div class="group-title">' + escapeHtml(text) + '</div>';
 }
@@ -44,6 +47,16 @@ export function render() {
 
     groupTitle('服务商') +
     '<section class="setting-card">' +
+    '<details class="setting-fold" id="provider-fold"' + (settingsFoldOpen === null ? (active.apiKey && active.model ? '' : ' open') : (settingsFoldOpen ? ' open' : '')) + '>' +
+      '<summary class="setting-row">' +
+        '<div class="setting-icon">' + icon('key') + '</div>' +
+        '<div class="setting-text">' +
+          '<div class="setting-name">' + escapeHtml(active.name) + '</div>' +
+          '<div class="setting-desc">' + escapeHtml(active.model || '未选择模型') + ' · ' + (active.apiKey ? '已配置' : '未配置 Key') + '</div>' +
+        '</div>' +
+        '<span class="setting-chevron">' + icon('chevronRight') + '</span>' +
+      '</summary>' +
+      '<div class="setting-fold-body">' +
       '<div class="setting-body">' +
         '<div class="field-row"><span class="field-label">当前服务商</span>' +
           '<button class="card-action" type="button" data-act="new-provider">+ 新建自定义</button>' +
@@ -87,6 +100,8 @@ export function render() {
         '</div>' +
         '<p class="setting-desc" id="test-status" style="margin:8px 0 0">Key 只通过当前浏览器直接发给你选择的服务商，不会经过其他服务器。</p>' +
       '</div>' +
+      '</div>' +
+    '</details>' +
     '</section>' +
 
     groupTitle('提示词') +
@@ -266,6 +281,11 @@ export function mount(root, app) {
     if (el && !el.disabled) el.addEventListener('input', markDirty);
   });
 
+  const providerFold = $('#provider-fold', root);
+  if (providerFold) {
+    providerFold.addEventListener('toggle', () => { settingsFoldOpen = providerFold.open; });
+  }
+
   const providerSelect = $('#provider-select', root);
   providerSelect.addEventListener('change', async () => {
     if (dirty) {
@@ -320,6 +340,7 @@ export function mount(root, app) {
         apiKey: apiKey
       });
       toast('配置已保存', 'success');
+      settingsFoldOpen = false;
       app.refresh();
       return;
     }
