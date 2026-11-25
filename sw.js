@@ -4,6 +4,7 @@ const CACHE = 'essay-grader-' + VERSION;
 const ASSETS = [
   './',
   './index.html',
+  './manual.html',
   './manifest.webmanifest',
   './assets/css/app.css',
   './assets/js/app.js',

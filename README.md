@@ -5,9 +5,12 @@
 | | |
 | --- | --- |
 | **在线使用** | <https://lulu3103.github.io/composition-correct/> |
+| **图文说明书** | <https://lulu3103.github.io/composition-correct/manual.html> |
 | **安卓 App** | [下载 APK](https://github.com/LuLu3103/composition-correct/releases/latest) |
 | **当前版本** | V6.0（正式版） |
 | **技术形态** | 原生 HTML / CSS / JavaScript，无构建、无依赖、无后端 |
+
+> **图片看不到？** GitHub 会把 README 里的图片交给 `raw.githubusercontent.com` 加载，这个域名在国内经常被阻断，所以截图会显示成裂图或一直转圈。这是网络问题，不是文件缺失。同样的内容已发布到 **[在线图文说明书](https://lulu3103.github.io/composition-correct/manual.html)**（图片走 `github.io`，国内可正常打开）。
 
 ![首页](docs/images/home.jpg)
 
@@ -222,7 +225,8 @@
 │       ├── utils.js         # DOM / Markdown / 图片压缩
 │       └── views/           # 首页 / 批改 / 历史 / 设置
 ├── docs/images/             # 说明书配图
-└── tools/                   # 图标生成、发布脚本
+├── manual.html              # 在线图文说明书（由 README 生成）
+└── tools/                   # 图标生成、发布脚本、README → manual.html
 ```
 
 浏览器要求：支持 ES Module 与 `fetch` 的现代浏览器（Chrome / Edge / Safari / Firefox 近两年版本）。

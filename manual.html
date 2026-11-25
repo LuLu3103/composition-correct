@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>作文批改器 · 使用说明书</title>
+<link rel="icon" href="assets/icons/favicon.svg">
+<style>
+:root{--blue:#2f7cf6;--bg:#f2f4f8;--card:#fff;--text:#16202e;--muted:#6b7383;--line:#e6e9f0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+.top{position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line)}
+.top b{font-size:15px;letter-spacing:.2px}
+.top a{font-size:13px;color:var(--blue);text-decoration:none;font-weight:600;border:0}
+.wrap{max-width:760px;margin:0 auto;padding:18px 16px 64px}
+article{background:var(--card);border-radius:22px;padding:22px 20px;box-shadow:0 10px 30px rgba(22,32,46,.06)}
+h1{font-size:26px;line-height:1.3;margin:.2em 0 .5em}
+h2{font-size:20px;margin:1.6em 0 .6em;padding-top:.6em;border-top:1px solid var(--line)}
+h3{font-size:17px;margin:1.3em 0 .5em;color:#20304a}
+p{margin:.7em 0}
+blockquote{margin:14px 0;padding:12px 16px;background:#eef4ff;border-left:3px solid var(--blue);border-radius:0 12px 12px 0;color:#2a3a55}
+img{display:block;width:100%;max-width:420px;height:auto;margin:14px auto;border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 22px rgba(22,32,46,.08)}
+ul,ol{margin:.6em 0;padding-left:1.3em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+code{background:#f2f4f8;border-radius:6px;padding:1px 5px;font-size:.9em;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre.code{background:#0f172a;color:#dbe4f5;border-radius:14px;padding:14px 16px;overflow:auto;font-size:13px;line-height:1.6}
+pre.code code{background:none;padding:0;color:inherit}
+.table-wrap{overflow-x:auto;margin:14px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#f7f9fc;font-weight:600}
+a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(47,124,246,.3)}
+.foot{margin-top:18px;text-align:center;color:var(--muted);font-size:12px}
+.foot a{color:var(--muted)}
+@media (max-width:520px){article{padding:18px 15px;border-radius:18px}h1{font-size:22px}h2{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="top"><b>作文批改器 · 说明书</b><a href="./">打开应用 →</a></div>
+<div class="wrap">
+<article>
+<h1>作文批改器 · 考研</h1>
+<blockquote>纯前端的考研英语作文 AI 批改工具：选模型、贴作文、得批改。作文、历史、API Key 全部只存在你自己的浏览器里。</blockquote>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th></th></tr></thead>
+<tbody>
+<tr><td><strong>在线使用</strong></td><td><a href="https://lulu3103.github.io/composition-correct/" target="_blank" rel="noopener">https://lulu3103.github.io/composition-correct/</a></td></tr>
+<tr><td><strong>图文说明书</strong></td><td><a href="https://lulu3103.github.io/composition-correct/manual.html" target="_blank" rel="noopener">https://lulu3103.github.io/composition-correct/manual.html</a></td></tr>
+<tr><td><strong>安卓 App</strong></td><td><a href="https://github.com/LuLu3103/composition-correct/releases/latest" target="_blank" rel="noopener">下载 APK</a></td></tr>
+<tr><td><strong>当前版本</strong></td><td>V6.0（正式版）</td></tr>
+<tr><td><strong>技术形态</strong></td><td>原生 HTML / CSS / JavaScript，无构建、无依赖、无后端</td></tr>
+</tbody></table></div>
+<p><img src="docs/images/home.jpg" alt="首页" loading="lazy"></p>
+<hr>
+<h2>一、它能做什么</h2>
+<p>考研英语作文写完之后，你可以把题目和作文交给 AI 批改：它按你内置的「八段式」提示词，逐条给出修改建议、逐句批改、模板个性化优化、记忆点、积累表达、完整修改稿和评分。</p>
+<p>整个过程<strong>不需要注册、不需要登录、没有服务器</strong>：网页是纯静态的，你的作文、历史记录和 API Key 都保存在当前浏览器里，只有批改时才会把作文发给你自己选择的服务商。</p>
+<p>适合：备考考研英语一/二的学生，想快速知道自己作文哪里扣分、怎么改、能拿几分。</p>
+<hr>
+<h2>二、界面一览</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>首页</th><th>批改结果</th></tr></thead>
+<tbody>
+<tr><td><img src="docs/images/home.jpg" alt="首页" loading="lazy"></td><td><img src="docs/images/review.jpg" alt="批改结果" loading="lazy"></td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead><tr><th>历史记录</th><th>设置</th></tr></thead>
+<tbody>
+<tr><td><img src="docs/images/history.jpg" alt="历史记录" loading="lazy"></td><td><img src="docs/images/settings.jpg" alt="设置" loading="lazy"></td></tr>
+</tbody></table></div>
+<p>桌面浏览器打开时会居中显示为手机宽度，方便对照手机端效果：</p>
+<p><img src="docs/images/desktop.jpg" alt="桌面端" loading="lazy"></p>
+<hr>
+<h2>三、快速开始（约 3 分钟）</h2>
+<ol><li>打开 <a href="https://lulu3103.github.io/composition-correct/" target="_blank" rel="noopener">https://lulu3103.github.io/composition-correct/</a>。</li><li>进入 <strong>设置</strong> → 选择服务商 → 填写 <strong>API Key</strong> → 点 <strong>保存配置</strong>。</li><li>点 <strong>获取可用模型</strong>，勾选要用的模型加入列表（没有列表就手动填模型名）。</li><li>回到 <strong>首页</strong>：选模型，填题目和作文（文字或图片都可以）。</li><li>点 <strong>提交批改</strong>，结果会显示在「批改」页，同时自动存进「历史」。</li></ol>
+<blockquote>第一次使用必须先在设置里配置 API Key，否则提交时会提示去设置。</blockquote>
+<hr>
+<h2>四、功能详解</h2>
+<h3>4.1 首页</h3>
+<p><img src="docs/images/home.jpg" alt="首页" loading="lazy"></p>
+<ul><li><strong>标题栏</strong>：Logo、应用名、实时时间与日期。</li><li><strong>模型选择</strong>：下拉选择当前服务商的模型；卡片上会提示当前模型是否支持图片识别（带「视觉」标记的模型才能读图片）。</li><li><strong>题目</strong>：可以输入文字，也可以「上传题目图片」（最多 3 张）；两者可同时存在，模型会优先按图片中的要求理解题目。</li><li><strong>作文</strong>：粘贴文本，或拍照 / 从图库上传作文图片（最多 3 张）。</li><li><strong>提交批改</strong>：一键提交；提交后会自动跳到「批改」页并实时显示模型返回的内容。</li></ul>
+<h3>4.2 批改结果</h3>
+<p><img src="docs/images/review.jpg" alt="批改结果" loading="lazy"></p>
+<p>结果按三大章节组织：<strong>修改建议</strong>、<strong>修改作文</strong>、<strong>作文评分</strong>。每一张卡片都可以折叠：</p>
+<ul><li>默认展开「总体评价」和「得分详情」，其余收起；</li><li>收起时右侧显示一行摘要（例如逐句批改显示第一条原句）；</li><li>顶部 <strong>全部展开 / 全部收起</strong> 一键切换；</li><li>报告头部直接显示题目、模型、时间与总分。</li></ul>
+<p>展开「逐句批改」可以看到原始的对照格式：</p>
+<p><img src="docs/images/review-sentences.jpg" alt="逐句批改" loading="lazy"></p>
+<p>点击「全部展开」后是完整报告：</p>
+<p><img src="docs/images/review-expanded.jpg" alt="完整报告" loading="lazy"></p>
+<p>卡片内容说明：</p>
+<div class="table-wrap"><table>
+<thead><tr><th>卡片</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>题目要求与完成情况</td><td>是否完成任务、是否偏题、字数、文体</td></tr>
+<tr><td>总体评价</td><td>当前水平、优点、最影响分数的 2–3 个问题</td></tr>
+<tr><td>逐句批改</td><td>有问题的句子：原句 → 改为 → 说明</td></tr>
+<tr><td>个性化优化</td><td>在模板基础上可以补充的表达、位置与作用</td></tr>
+<tr><td>最值得记住的错误</td><td>3–5 条可迁移的记忆点</td></tr>
+<tr><td>最值得积累的表达</td><td>表达 + 可用于什么场景</td></tr>
+<tr><td>修改后的完整作文</td><td>保留原结构、可直接参考的修改稿，可一键复制</td></tr>
+<tr><td>得分详情</td><td>总分环形图、档次、预估区间、得分优势、主要扣分点</td></tr>
+<tr><td>原始作文</td><td>提交时的文字或图片</td></tr>
+</tbody></table></div>
+<p>底部还有 <strong>复制全文</strong> 和 <strong>重新批改</strong>。</p>
+<h3>4.3 历史记录</h3>
+<p><img src="docs/images/history.jpg" alt="历史记录" loading="lazy"></p>
+<ul><li>每次批改自动保存，默认以批改时间命名，可重命名（点铅笔图标）。</li><li>每条显示时间、使用模型、字数与得分；可单独删除或一键清空。</li><li>点任意一条，会同时把题目和作文回填到首页，并在批改页还原当时的批改结果。</li></ul>
+<h3>4.4 设置</h3>
+<p><img src="docs/images/settings.jpg" alt="设置" loading="lazy"></p>
+<p>配置完成后，「服务商与模型」会自动收起，只显示当前服务商、模型和配置状态，点一下展开编辑。</p>
+<ul><li><strong>服务商</strong>：内置 DeepSeek、OpenAI、通义千问、智谱 GLM、Kimi、硅基流动；可「+ 新建自定义」保存多套自建接口（名称 / 接口地址 / Key）。</li><li><strong>每个服务商独立保存</strong>自己的地址、Key 和模型列表，切换时互不覆盖；改动后需点「保存配置」才生效，未保存会有提示。</li><li><strong>获取可用模型</strong>：从服务商的 <code>/models</code> 接口拉取真实列表，支持搜索、勾选多个、自动标注视觉模型；也可手动添加模型名。</li></ul>
+<p><img src="docs/images/picker.jpg" alt="选择模型" loading="lazy"></p>
+<ul><li><strong>提示词</strong>：可编辑，也可一键恢复默认。</li><li><strong>数据</strong>：导出 / 导入 JSON 备份、清空本地数据。</li><li><strong>关于</strong>：使用说明、网站声明、版本号。</li></ul>
+<h3>4.5 图片批改</h3>
+<ul><li>题目和作文都支持图片，各自最多 3 张，图片会先压缩（长边 ≤ 1400px）。</li><li>只有带「视觉」标记的模型会读取图片；在模型列表里点「文本 / 视觉」标签即可切换。</li><li>浏览器无法解码 HEIC/HEIF 时会提示改用拍照或转成 JPG。</li></ul>
+<hr>
+<h2>五、数据与隐私（安全说明）</h2>
+<p>这是本项目的核心设计：<strong>没有服务器，没有账号，没有统计</strong>。</p>
+<p><strong>数据存在哪里</strong></p>
+<ul><li>作文、批改结果、历史记录、服务商配置与 API Key，全部保存在浏览器的 <strong>localStorage</strong>（键名以 <code>essayGrader.</code> 开头）。</li><li>页面不写 Cookie、不使用第三方存储、不做任何埋点。</li></ul>
+<p><strong>API Key 去哪里</strong></p>
+<ul><li>Key 只保存在你本机；<strong>不会上传到本项目的任何地方</strong>（本项目也没有可以上传的服务器）。</li><li>提交批改或拉取模型时，Key 只作为 <code>Authorization: Bearer &lt;你的 Key&gt;</code> 请求头，直接发送到<strong>你自己在设置里填写的接口地址</strong>。</li><li>导出备份默认<strong>剔除 Key</strong>；只有你主动选择「含 Key」时才会写进备份文件。</li></ul>
+<p><strong>页面加载了什么</strong></p>
+<ul><li>全部脚本、样式、图标都在仓库内，无 CDN、无第三方脚本、无外部字体、无统计 SDK。</li><li>整站通过 HTTPS 访问；批改请求同样走 HTTPS（HTTP 接口会被浏览器按混合内容策略拦截）。</li></ul>
+<p><strong>已知边界（请务必了解）</strong></p>
+<ul><li>能直接使用你设备或浏览器的人（或拥有你浏览器权限的扩展）可以读取 localStorage 中的 Key；公共电脑上用完请点「清空本地数据」。</li><li>网站是公开的，但每个人的数据只存在各自的浏览器里，互不可见。</li><li>不要分享选择了「含 Key」的备份文件。</li><li>页面本身不含 XSS 注入点（用户内容与图片 URL 均做了转义），但请保持使用官方地址访问。</li></ul>
+<hr>
+<h2>六、常见问题</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>问题</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>提示「网络连接失败」</td><td>服务商不允许浏览器跨域（CORS），或地址 / 网络异常；换一家支持 CORS 的服务商即可</td></tr>
+<tr><td>「获取可用模型」报错</td><td>该服务商未开放 <code>/models</code> 接口，用「手动添加模型名称」即可</td></tr>
+<tr><td>「测试连接」失败但批改能用</td><td>已做兼容：测试请求被模型拒绝时会改用 <code>/models</code> 验证地址与 Key，并给出结论</td></tr>
+<tr><td>图片识别不到文字</td><td>当前模型不支持视觉，换带「视觉」标记的模型</td></tr>
+<tr><td>图片上传失败</td><td>可能是 HEIC 格式；改用拍照或先转 JPG，单张上限 30MB</td></tr>
+<tr><td>评分没有显示</td><td>检查是否被截断（页面会提示「长度上限」）；或换输出更长的模型重试</td></tr>
+<tr><td>换设备后数据没了</td><td>数据只在本机，请用「导出备份 / 导入备份」迁移</td></tr>
+<tr><td>切换服务商后配置乱了</td><td>V3 起每个服务商独立保存，V6 起配置完成后会自动收起</td></tr>
+</tbody></table></div>
+<hr>
+<h2>七、安装与使用</h2>
+<h3>网页版</h3>
+<p>直接用手机或电脑浏览器打开 <a href="https://lulu3103.github.io/composition-correct/" target="_blank" rel="noopener">https://lulu3103.github.io/composition-correct/</a>。</p>
+<h3>安装到手机主屏幕（PWA）</h3>
+<ul><li>iPhone：Safari 打开 → 分享 → 「添加到主屏幕」。</li><li>Android：Chrome 打开 → 菜单 → 「安装应用 / 添加到主屏幕」。</li></ul>
+<p>安装后是全屏启动，界面与浏览器一致。</p>
+<h3>安卓 APK</h3>
+<p>在 <a href="https://github.com/LuLu3103/composition-correct/releases/latest" target="_blank" rel="noopener">Releases</a> 下载 <code>composition-correct-v6.0.apk</code>，安装时允许「安装未知来源应用」即可。</p>
+<ul><li>APK 内置了网页资源，<strong>离线也能打开界面</strong>；批改时仍需联网访问你配置的服务商。</li><li>通过自签名证书打包（非应用商店分发），首次安装需要手动允许。</li></ul>
+<hr>
+<h2>八、技术说明</h2>
+<ul><li>单页应用，原生 ES Module，无构建步骤、无 npm 依赖。</li><li>结果解析兼容多种模型输出：八段编号、三段括号、Markdown 加粗、表格、无冒号、区间分等写法。</li><li>批改请求使用 SSE 流式输出，长回答可实时看到进度。</li><li>PWA：<code>manifest.webmanifest</code> + <code>sw.js</code>，离线壳缓存；版本号同时写在 <code>store.js</code>（APP_VERSION）与 <code>sw.js</code>（VERSION）。</li></ul>
+<p>目录结构：</p>
+<pre class="code"><code>.
+├── index.html               # 单页外壳
+├── manifest.webmanifest     # PWA 清单
+├── sw.js                    # 离线缓存
+├── assets/
+│   ├── css/app.css          # 全部样式
+│   ├── icons/               # 图标
+│   └── js/
+│       ├── app.js           # 路由与批改任务
+│       ├── api.js           # OpenAI 兼容接口 / SSE / 模型列表
+│       ├── parse.js         # 八段解析与评分抽取
+│       ├── prompt.js        # 默认提示词
+│       ├── store.js         # 本地存储与多服务商配置
+│       ├── utils.js         # DOM / Markdown / 图片压缩
+│       └── views/           # 首页 / 批改 / 历史 / 设置
+├── docs/images/             # 说明书配图
+├── manual.html              # 在线图文说明书（由 README 生成）
+└── tools/                   # 图标生成、发布脚本、README → manual.html</code></pre>
+<p>浏览器要求：支持 ES Module 与 <code>fetch</code> 的现代浏览器（Chrome / Edge / Safari / Firefox 近两年版本）。</p>
+<hr>
+<h2>九、开发与部署</h2>
+<p>本地预览（无需构建）：</p>
+<pre class="code"><code>python -m http.server 8123
+# 浏览器打开 http://127.0.0.1:8123</code></pre>
+<p>发布到 GitHub Pages：</p>
+<ul><li>推送到 <code>main</code> 分支，仓库 Settings → Pages 选择 <code>main / (root)</code>；</li><li>若本机 <code>git push</code> 不稳定，可用 GitHub API 发布：</li></ul>
+<pre class="code"><code>python tools/deploy.py --dry-run
+python tools/deploy.py</code></pre>
+<p>发版时记得同步修改 <code>assets/js/store.js</code> 的 <code>APP_VERSION</code> 和 <code>sw.js</code> 的 <code>VERSION</code>，否则浏览器可能继续使用旧的离线缓存。</p>
+<hr>
+<h2>十、更新日志</h2>
+<h3>V6.0（2026-11-25 · 正式版）</h3>
+<ul><li>修复图片提交时评分识别不到：兼容加粗 / 表格 / 无冒号 / 区间分等写法，评分段缺失时回退全文查找。</li><li>输出被截断时给出提示卡片。</li><li>设置页「服务商与模型」可折叠，配置完成后自动收起。</li></ul>
+<h3>V5.0（2026-11-25 · 正式版）</h3>
+<ul><li>题目支持图片；修复图库上传兼容性（空 MIME / octet-stream / HEIC 提示）。</li></ul>
+<h3>V4.0（2026-11-25）</h3>
+<ul><li>批改结果卡片可折叠，新增全部展开 / 收起。</li><li>修复设置页事件重复绑定导致的模型列表串台、测试连接误报。</li></ul>
+<h3>V3.0（2026-11-25）</h3>
+<ul><li>多服务商配置：下拉切换、独立保存、多套自定义服务商。</li></ul>
+<h3>V2.0（2026-11-25）</h3>
+<ul><li>模型列表改为从服务商获取；提示词换成八段式，批改页按八段呈现。</li></ul>
+<h3>V1.0.0（2026-11-25）</h3>
+<ul><li>首个版本：四页结构、文本/图片批改、流式输出、历史、本地设置与备份、PWA。</li></ul>
+<hr>
+<h2>十一、免责声明</h2>
+<p>AI 批改结果仅供学习参考，不代表真实考试评分。因使用本工具产生的任何后果由使用者自行承担；请遵守你所使用 AI 服务商的服务条款。</p>
+</article>
+<div class="foot"><a href="./">返回应用</a> · <a href="https://github.com/LuLu3103/composition-correct" target="_blank" rel="noopener">GitHub 仓库</a> · V6.0</div>
+</div>
+</body>
+</html>
